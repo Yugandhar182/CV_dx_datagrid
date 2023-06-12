@@ -37,11 +37,10 @@
 			link.addEventListener("click", async (event) => {
 			  event.preventDefault();
 			  const cvResponse = await fetch(link.href);
-			  const cvData = await cvResponse.json();
-			  // Assuming the response contains the CV file URL
-			  const cvFileUrl = cvData.fileUrl;
-			  if (cvFileUrl) {
-				window.open(cvFileUrl, "_blank");
+			  if (cvResponse.ok) {
+				const cvBlob = await cvResponse.blob();
+				const cvUrl = URL.createObjectURL(cvBlob);
+				window.open(cvUrl, "_blank");
 			  } else {
 				alert("CV file not found.");
 			  }
