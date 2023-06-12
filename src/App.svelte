@@ -5,6 +5,8 @@
 
   let jsonData = [];
   let gridData = [];
+  let showPopup = false;
+  let pdfUrl = "";
 
   onMount(async () => {
     const response = await fetch(
@@ -38,15 +40,10 @@
             event.preventDefault();
             const cvResponse = await fetch(link.href);
             if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
-              } else {
-                alert("CV file not found.");
-              }
+              const blob = await cvResponse.blob();
+              const url = URL.createObjectURL(blob);
+              pdfUrl = url;
+              showPopup = true;
             } else {
               alert("Failed to fetch CV file.");
             }
@@ -101,8 +98,36 @@
   #dataGrid {
     height: 400px;
   }
+  
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 800px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
 </style>
 
 <h1 style="color:blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
+
+{#if showPopup}
+  <div class="popup">
+    <div class="popup-close" on:click={() => { showPopup = false; pdfUrl = ""; }}>Close</div>
+    <iframe src="{pdfUrl}" width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+{/if}
