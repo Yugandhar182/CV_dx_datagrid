@@ -38,17 +38,11 @@
             event.preventDefault();
             const cvResponse = await fetch(link.href);
             if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
-              } else {
-                alert("CV file not found.");
-              }
+              const cvBlob = await cvResponse.blob();
+              const cvUrl = URL.createObjectURL(cvBlob);
+              window.open(cvUrl, "_blank");
             } else {
-              alert("Failed to fetch CV file.");
+              alert("CV file not found.");
             }
           });
           container.appendChild(link);
