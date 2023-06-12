@@ -2,19 +2,17 @@
 	import { onMount } from "svelte";
 	import "bootstrap/dist/css/bootstrap.min.css";
 	import DevExpress from "devextreme";
-  
+
 	let jsonData = [];
 	let gridData = [];
-  
-	
-  
+
 	onMount(async () => {
 	  const response = await fetch(
 		"https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
 	  );
 	  const responseData = await response.json();
 	  jsonData = responseData.data;
-  
+
 	  gridData = jsonData.map((item) => ({
 		id: item.id,
 		firstName: item.firstName,
@@ -22,18 +20,27 @@
 		email: item.email,
 		mobile: item.mobile,
 	  }));
-  
+
 	  const columns = [
 		{ dataField: "id", caption: "ID", width: 250 },
 		{ dataField: "firstName", caption: "Full Name", width: 200 },
 		{ dataField: "surname", caption: "Surname", width: 200 },
 		{ dataField: "email", caption: "Email", width: 200 },
 		{ dataField: "mobile", caption: "Mobile", width: 150 },
-		// Add the file button column
-	
-		// Define other columns as needed
+		{
+		  caption: "Actions",
+		  cellTemplate: function (container, options) {
+			const link = document.createElement("a");
+			link.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+			link.target = "_blank";
+			link.innerText = "View CV";
+			container.appendChild(link);
+		  },
+		  width: 150,
+		},
+		// Add other columns as needed
 	  ];
-  
+
 	  const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
 		dataSource: gridData,
 		columns: columns,
@@ -63,21 +70,18 @@
 		paging: {
 		  pageSize: 10,
 		},
-	
-		onInitialized: () => {
-		  
-		},
+
+		onInitialized: () => {},
 	  });
 	});
-  </script>
-  
-  <style>
+</script>
+
+<style>
 	#dataGrid {
 	  height: 400px;
 	}
-  </style>
-  
-  <h1 style="color:blue;">Job Candidate Details</h1>
-  
-  <div id="dataGrid"></div>
-  
+</style>
+
+<h1 style="color:blue;">Job Candidate Details</h1>
+
+<div id="dataGrid"></div>
