@@ -62,7 +62,7 @@
             paging: {
               pageSize: 10,
             },
-            onInitialized: () => {},
+           
           }
         );
       } else {
