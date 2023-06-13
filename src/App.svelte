@@ -68,23 +68,26 @@
     });
 
     // Function to handle file download
-    const downloadFile = async (cvId) => {
-      const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+  // Function to handle file download
+const downloadFile = async (cvId) => {
+  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
 
-      try {
-        const response = await fetch(downloadUrl);
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
+  try {
+    const response = await fetch(downloadUrl);
+    const blob = await response.blob();
+    console.log(blob); // Log the blob object to check its contents
+    const url = URL.createObjectURL(blob);
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `filename`; // Provide a suitable name for the downloaded file
-        a.click();
-        URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error downloading file:", error);
-      }
-    };
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `filename`; // Provide a suitable name for the downloaded file
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading file:", error);
+  }
+};
+
 
     // Add a custom command column for the download button
     columns.push({
