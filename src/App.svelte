@@ -37,7 +37,7 @@
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
           downloadButton.addEventListener("click", () => {
-            downloadCV(cvid);
+            downloadCV(options.cvid);
           });
           container.appendChild(downloadButton);
         },
