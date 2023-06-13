@@ -62,7 +62,7 @@
   });
 
   async function downloadCV(cvid) {
-    console.log("Data being sent to API:", options.data.cvid);
+    console.log("Data being sent to API:", cvid);
     try {
       const response = await fetch(
         `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
