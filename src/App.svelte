@@ -71,6 +71,21 @@
           },
         }
       );
+
+      // Download file
+      const downloadFile = async (cvid) => {
+        const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+        const downloadResponse = await fetch(downloadUrl);
+        const fileBlob = await downloadResponse.blob();
+
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(fileBlob);
+        downloadLink.download = "file.pdf"; // Replace "file.pdf" with the desired file name
+        downloadLink.click();
+      };
+
+      // Call the downloadFile function with the desired cvid
+      downloadFile(cvid);
     };
 
     await fetchCandidateData();
