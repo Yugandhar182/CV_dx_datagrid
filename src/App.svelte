@@ -80,8 +80,8 @@
     );
   });
 
-  function downloadCV(cvID) {
-  const apiUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvID}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+  function downloadCV(cvid) {
+  const apiUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
   
   fetch(apiUrl)
     .then(response => response.blob())
