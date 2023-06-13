@@ -19,7 +19,6 @@
       surname: item.surname,
       email: item.email,
       mobile: item.mobile,
-      cvid: item.cvid, // Assuming each candidate has a "cvid" property
     }));
 
     const columns = [
@@ -28,15 +27,21 @@
       { dataField: "surname", caption: "Surname", width: 200 },
       { dataField: "email", caption: "Email", width: 200 },
       { dataField: "mobile", caption: "Mobile", width: 150 },
+      // Add the file button column
       {
-        // File button column
-        caption: "Download File",
-        width: 150,
+        caption: "Actions",
+        width: 100,
         cellTemplate: function (container, options) {
           const link = document.createElement("a");
-          link.href = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${options.data.cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
-          link.innerText = "Download";
+          link.href = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154`;
+          link.innerHTML = "Download CV";
+          link.download = "CV";
+          link.className = "btn btn-primary";
           container.appendChild(link);
+
+          link.addEventListener("click", () => {
+            window.alert("CV successfully downloaded!"); // Display success message
+          });
         },
       },
       // Define other columns as needed
@@ -72,7 +77,7 @@
         pageSize: 10,
       },
       onInitialized: () => {
-        // Optional initialization code
+        // Any additional initialization code
       },
     });
   });
