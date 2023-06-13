@@ -5,10 +5,11 @@
 
   let jsonData = [];
   let gridData = [];
+  let selectedRowData = null;
 
   onMount(async () => {
     const response = await fetch(
-      "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
+      "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
     );
     const responseData = await response.json();
     jsonData = responseData.data;
@@ -27,8 +28,20 @@
       { dataField: "surname", caption: "Surname", width: 200 },
       { dataField: "email", caption: "Email", width: 200 },
       { dataField: "mobile", caption: "Mobile", width: 150 },
-      // Add the file button column
-
+      {
+        caption: "CV",
+        cellTemplate: function (container, options) {
+          const button = document.createElement("button");
+          button.className = "btn btn-secondary";
+          button.innerText = "Download";
+          button.addEventListener("click", function () {
+            selectedRowData = options.data; // Store the selected row data
+            const candidateId = options.data.id; // Assuming 'id' is the candidate ID property
+            downloadPDF(candidateId);
+          });
+          container.appendChild(button);
+        },
+      },
       // Define other columns as needed
     ];
 
@@ -68,8 +81,8 @@
     });
   });
 
-  function downloadPDF(cvid) {
-    const url = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+  function downloadPDF(candidateId) {
+    const url = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${candidateId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
     const link = document.createElement("a");
     link.href = url;
     link.download = "file.pdf";
@@ -88,4 +101,3 @@
 <h1 style="color:blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
-<button on:click={() => downloadPDF("cvid-goes-here")}>Download PDF</button>
