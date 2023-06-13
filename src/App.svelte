@@ -48,7 +48,7 @@
               const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvData.cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
               const downloadLink = document.createElement("a");
               downloadLink.href = downloadUrl;
-              downloadLink.download = "CV.txt";
+              downloadLink.download = "CV.pdf";
               downloadLink.click();
             } else {
               console.error("Failed to retrieve CV file.");
