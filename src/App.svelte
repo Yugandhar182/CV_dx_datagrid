@@ -63,61 +63,20 @@
       },
 
       onInitialized: () => {
-        
+
       },
     });
-
-    // Function to handle file download
-    async function downloadCV(cvid) {
-  try {
-    const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-
-    if (response.ok) {
-      // Extract the file name from the response headers
-      const contentDisposition = response.headers.get("content-disposition");
-      const fileName = contentDisposition
-        ? contentDisposition.split("filename=")[1]
-        : "CV_File";
-
-      // Create a temporary download link and trigger the download
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "filename";
-      link.click();
-
-      // Show success message
-      alert("CV downloaded successfully!");
-    } else {
-      console.error("CV download failed.");
-      // Handle the error accordingly
-    }
-  } catch (error) {
-    console.error("CV download error:", error);
-    // Handle the error accordingly
-  }
-}
-
-    // Add a custom command column for the download button
-    columns.push({
-      caption: "Download",
-      width: 100,
-      cellTemplate: function (container, options) {
-        const button = document.createElement("button");
-        button.innerText = "Download";
-        button.className = "btn btn-primary";
-        button.addEventListener("click", () => {
-          downloadCV(options.data.id); // Pass the appropriate ID for the download
-        });
-        container.appendChild(button);
-      },
-    });
-
-    dataGrid.option("columns", columns);
   });
+
+  function downloadPDF(cvid) {
+    const url = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "file.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 </script>
 
 <style>
@@ -129,3 +88,4 @@
 <h1 style="color:blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
+<button on:click={() => downloadPDF("cvid-goes-here")}>Download PDF</button>
