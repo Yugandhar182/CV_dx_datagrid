@@ -19,6 +19,7 @@
       surname: item.surname,
       email: item.email,
       mobile: item.mobile,
+      fileId: item.fileId // Assuming you have a fileId property in the data
     }));
 
     const columns = [
@@ -35,7 +36,7 @@
           const downloadButton = document.createElement("a");
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
-          downloadButton.href = options.data.fileUrl; // Replace with the actual file URL property
+          downloadButton.href = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${options.data.fileId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`; // Replace with the actual API endpoint
           downloadButton.download = "file.txt"; // Replace with the desired file name
           container.appendChild(downloadButton);
         },
