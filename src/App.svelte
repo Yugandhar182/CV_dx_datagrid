@@ -79,7 +79,7 @@
         console.error("Failed to download CV.");
       }
     } catch (error) {
-      console.error("Error while downloading CV:", error);
+      console.error("Error while download CV:", error);
     }
   }
 </script>
