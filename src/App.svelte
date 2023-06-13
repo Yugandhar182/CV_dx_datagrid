@@ -110,7 +110,7 @@
         button.innerText = "Download";
         button.className = "btn btn-primary";
         button.addEventListener("click", () => {
-          downloadFile(options.data.id); // Pass the appropriate ID for the download
+          downloadCV(options.data.id); // Pass the appropriate ID for the download
         });
         container.appendChild(button);
       },
