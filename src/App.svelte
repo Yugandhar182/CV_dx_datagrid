@@ -81,13 +81,27 @@
   });
 
   function downloadCV(candidateId) {
-    const apiUrl = `https://api.recruitly.io/api/candidatecv/${candidateId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
-    const link = document.createElement("a");
-    link.href = apiUrl;
-    link.download = "CV.pdf";
-    link.target = "_blank";
-    link.click();
-  }
+  const apiUrl = `https://api.recruitly.io/api/candidatecv/${candidateId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+  
+  fetch(apiUrl)
+    .then(response => response.blob())
+    .then(blob => {
+      // Create a temporary anchor element
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "CV.pdf";
+      
+      // Trigger a click event on the anchor element
+      link.click();
+      
+      // Clean up the temporary anchor element
+      URL.revokeObjectURL(link.href);
+    })
+    .catch(error => {
+      console.error("Failed to download CV:", error);
+    });
+}
+
 </script>
 
 <style>
