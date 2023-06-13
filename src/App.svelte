@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
+      "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
     );
     const responseData = await response.json();
     jsonData = responseData.data;
@@ -28,7 +28,18 @@
       { dataField: "email", caption: "Email", width: 200 },
       { dataField: "mobile", caption: "Mobile", width: 150 },
       // Add the file button column
-
+      {
+        caption: "Actions",
+        width: 150,
+        cellTemplate: function (container, options) {
+          const downloadButton = document.createElement("a");
+          downloadButton.className = "btn btn-success btn-sm";
+          downloadButton.textContent = "Download";
+          downloadButton.href = options.data.fileUrl; // Replace with the actual file URL property
+          downloadButton.download = "file.txt"; // Replace with the desired file name
+          container.appendChild(downloadButton);
+        },
+      },
       // Define other columns as needed
     ];
 
@@ -39,72 +50,12 @@
       filterRow: {
         visible: true,
       },
-      editing: {
-        allowDeleting: true,
-        allowAdding: true,
-        allowUpdating: true,
-        mode: "popup",
-        form: {
-          labelLocation: "top",
-        },
-        popup: {
-          showTitle: true,
-          title: "Row in the editing state",
-        },
-        texts: {
-          saveRowChanges: "Save",
-          cancelRowChanges: "Cancel",
-          deleteRow: "Delete",
-          confirmDeleteMessage: "Are you sure you want to delete this record?",
-        },
-      },
       paging: {
         pageSize: 10,
       },
 
-      onInitialized: () => {
-        
-      },
+      onInitialized: () => {},
     });
-
-    // Function to handle file download
-  // Function to handle file download
-const downloadFile = async (cvid) => {
-  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
-
-  try {
-    const response = await fetch(downloadUrl);
-    const blob = await response.blob();
-    console.log(blob); // Log the blob object to check its contents
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `filename`; // Provide a suitable name for the downloaded file
-    a.click();
-    URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Error downloading file:", error);
-  }
-};
-
-
-    // Add a custom command column for the download button
-    columns.push({
-      caption: "Download",
-      width: 100,
-      cellTemplate: function (container, options) {
-        const button = document.createElement("button");
-        button.innerText = "Download";
-        button.className = "btn btn-primary";
-        button.addEventListener("click", () => {
-          downloadFile(options.data.id); // Pass the appropriate ID for the download
-        });
-        container.appendChild(button);
-      },
-    });
-
-    dataGrid.option("columns", columns);
   });
 </script>
 
