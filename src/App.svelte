@@ -7,95 +7,74 @@
   let gridData = [];
 
   onMount(async () => {
-    try {
+    const fetchCandidateData = async () => {
       const response = await fetch(
-        "https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
+        `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
       );
+      const responseData = await response.json();
+      jsonData = responseData.data;
 
-      if (response.ok) {
-        const responseData = await response.json();
-        jsonData = responseData.data;
+      gridData = jsonData.map((item) => ({
+        id: item.id,
+        firstName: item.firstName,
+        surname: item.surname,
+        email: item.email,
+        mobile: item.mobile,
+      }));
 
-        gridData = jsonData.map((item) => {
-          
-          return {
-            id: item.id,
-            firstName: item.firstName,
-            surname: item.surname,
-            email: item.email,
-            mobile: item.mobile,
-           
-          };
-        });
+      const columns = [
+        { dataField: "id", caption: "ID", width: 250 },
+        { dataField: "firstName", caption: "Full Name", width: 200 },
+        { dataField: "surname", caption: "Surname", width: 200 },
+        { dataField: "email", caption: "Email", width: 200 },
+        { dataField: "mobile", caption: "Mobile", width: 150 },
+        // Add the file button column
 
-        const columns = [
-          { dataField: "id", caption: "ID", width: 250 },
-          { dataField: "firstName", caption: "Full Name", width: 200 },
-          { dataField: "surname", caption: "Surname", width: 200 },
-          { dataField: "email", caption: "Email", width: 200 },
-          { dataField: "mobile", caption: "Mobile", width: 150 },
-          // Add the file button column
-          {
-            caption: "Actions",
-            width: 150,
-            cellTemplate: function (container, options) {
-              console.log("Options Data:", options.data);
-              const downloadButton = document.createElement("a");
-              downloadButton.className = "btn btn-success btn-sm";
-              downloadButton.textContent = "Download";
-              downloadButton.addEventListener("click", () => {
-                downloadCV(options.data.cvid);
-              });
-              container.appendChild(downloadButton);
+        // Define other columns as needed
+      ];
+
+      const dataGrid = new DevExpress.ui.dxDataGrid(
+        document.getElementById("dataGrid"),
+        {
+          dataSource: gridData,
+          columns: columns,
+          showBorders: true,
+          filterRow: {
+            visible: true,
+          },
+          editing: {
+            allowDeleting: true,
+            allowAdding: true,
+            allowUpdating: true,
+            mode: "popup",
+            form: {
+              labelLocation: "top",
+            },
+            popup: {
+              showTitle: true,
+              title: "Row in the editing state",
+            },
+            texts: {
+              saveRowChanges: "Save",
+              cancelRowChanges: "Cancel",
+              deleteRow: "Delete",
+              confirmDeleteMessage:
+                "Are you sure you want to delete this record?",
             },
           },
-          // Define other columns as needed
-        ];
+          paging: {
+            pageSize: 10,
+          },
 
-        const dataGrid = new DevExpress.ui.dxDataGrid(
-          document.getElementById("dataGrid"),
-          {
-            dataSource: gridData,
-            columns: columns,
-            showBorders: true,
-            filterRow: {
-              visible: true,
-            },
-            paging: {
-              pageSize: 10,
-            },
-          }
-        );
-      } else {
-        console.error("Failed to fetch candidate data.");
-      }
-    } catch (error) {
-      console.error("Error while fetching candidate data:", error);
-    }
-  });
-
-  async function downloadCV(cvid) {
-    console.log("cvid:", cvid);
-    try {
-      const response = await fetch(
-        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+          onInitialized: () => {
+            // Additional initialization code, if needed
+          },
+        }
       );
+    };
 
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "CV.txt"; // Replace with the desired file name
-        link.click();
-        URL.revokeObjectURL(url);
-      } else {
-        console.error("Failed to download the file.");
-      }
-    } catch (error) {
-      console.error("Error while downloading the file:", error);
-    }
-  }
+    await fetchCandidateData();
+  });
 </script>
 
 <style>
