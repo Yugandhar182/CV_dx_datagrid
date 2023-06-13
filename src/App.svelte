@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
+      "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
     );
     const responseData = await response.json();
     jsonData = responseData.data;
@@ -68,8 +68,8 @@
     });
 
     // Function to handle file download
-    const downloadFile = async (cvid) => {
-      const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+    const downloadFile = async (cvId) => {
+      const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
 
       try {
         const response = await fetch(downloadUrl);
@@ -78,7 +78,7 @@
 
         const a = document.createElement("a");
         a.href = url;
-        a.download = `file_${cvid}.pdf`; // Provide a suitable name for the downloaded file
+        a.download = `file_${cvId}.pdf`; // Provide a suitable name for the downloaded file
         a.click();
         URL.revokeObjectURL(url);
       } catch (error) {
