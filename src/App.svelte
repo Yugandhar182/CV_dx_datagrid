@@ -37,7 +37,7 @@
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
           downloadButton.addEventListener("click", () => {
-            downloadCV(options.data.cvid);
+            downloadCV(options.data.id);
           });
           container.appendChild(downloadButton);
         },
@@ -71,7 +71,7 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "${cvid}.pdf"; // Replace with the desired file name
+        link.download = "name.pdf"; // Replace with the desired file name
         link.click();
         URL.revokeObjectURL(url);
       } else {
