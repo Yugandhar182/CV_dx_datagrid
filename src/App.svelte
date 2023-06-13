@@ -37,7 +37,7 @@
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
           downloadButton.addEventListener("click", () => {
-            downloadCV(options.data.id);
+            downloadCV(options.data);
           });
           container.appendChild(downloadButton);
         },
