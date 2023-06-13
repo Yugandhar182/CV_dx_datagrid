@@ -22,6 +22,7 @@
           surname: item.surname,
           email: item.email,
           mobile: item.mobile,
+          cvid: item.cvid
           
         }));
 
@@ -73,7 +74,7 @@
   });
 
   async function downloadCV(cvid) {
-    console.log("File ID being sent to API:", cvid);
+    console.log( cvid);
     try {
       const response = await fetch(
         `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
