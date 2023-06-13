@@ -68,23 +68,38 @@
     });
 
     // Function to handle file download
-    const downloadFile = async (cvid) => {
-      const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+    async function downloadCV(cvid) {
+  try {
+    const response = await fetch(
+      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+    );
 
-      try {
-        const response = await fetch(downloadUrl);
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
+    if (response.ok) {
+      // Extract the file name from the response headers
+      const contentDisposition = response.headers.get("content-disposition");
+      const fileName = contentDisposition
+        ? contentDisposition.split("filename=")[1]
+        : "CV_File";
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `file_${cvid}.pdf`; // Provide a suitable name for the downloaded file
-        a.click();
-        URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error download file:", error);
-      }
-    };
+      // Create a temporary download link and trigger the download
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "CV.pdf";
+      link.click();
+
+      // Show success message
+      alert("CV downloaded successfully!");
+    } else {
+      console.error("CV download failed.");
+      // Handle the error accordingly
+    }
+  } catch (error) {
+    console.error("CV download error:", error);
+    // Handle the error accordingly
+  }
+}
 
     // Add a custom command column for the download button
     columns.push({
