@@ -78,7 +78,7 @@
 
         const a = document.createElement("a");
         a.href = url;
-        a.download = `file_${cvId}.pdf`; // Provide a suitable name for the downloaded file
+        a.download = `filename`; // Provide a suitable name for the downloaded file
         a.click();
         URL.revokeObjectURL(url);
       } catch (error) {
