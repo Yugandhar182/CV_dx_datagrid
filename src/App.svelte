@@ -59,7 +59,7 @@
 			const downloadButton = document.createElement("button");
 			downloadButton.innerText = "Download";
 			downloadButton.addEventListener("click", function () {
-			  downloadFile(cvid);
+			  downloadFile(options.data.cvid);
 			});
 			container.appendChild(downloadButton);
 		  },
