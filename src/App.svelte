@@ -98,7 +98,7 @@
       URL.revokeObjectURL(link.href);
     })
     .catch(error => {
-      console.error("Failed to download CV:", error);
+      console.error("Fail to download CV:", error);
     });
 }
 
