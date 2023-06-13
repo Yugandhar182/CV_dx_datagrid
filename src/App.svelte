@@ -7,13 +7,22 @@
 	let gridData = [];
   
 	async function fetchCandidateData(candidateId) {
-	  const apiUrl = `https://api.recruitly.io/api/candidatecv/${options.data.cvid}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+  const apiUrl = `https://api.recruitly.io/api/candidatecv/${candidateId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
 
-	  const response = await fetch(apiUrl);
-	  const data = await response.json();
+  const response = await fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(options.data), // Assuming options.data is the data object to be sent
+  });
 
-	  return data;
-	}
+  const data = await response.json();
+
+  return data;
+}
+
+
   
 	async function downloadFile(cvid) {
 	  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
