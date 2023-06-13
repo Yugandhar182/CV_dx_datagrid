@@ -28,7 +28,7 @@
       { dataField: "firstName", caption: "Full Name", width: 200 },
       { dataField: "surname", caption: "Surname", width: 200 },
       { dataField: "email", caption: "Email", width: 200 },
-      { dataField: "mobile", caption: "Mobile", width: 150 },
+      { dataField: "mobile", caption: "Mobile", width: 155 },
       {
         caption: "Actions",
         cellTemplate: function (container, options) {
