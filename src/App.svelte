@@ -98,7 +98,17 @@
       URL.revokeObjectURL(link.href);
     })
     .catch(error => {
-      console.error("Fail to download CV:", error);
+      console.error("Failed to download CV:", error);
+    });
+
+  // Log the API response
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      console.log("API response:", data);
+    })
+    .catch(error => {
+      console.error("Failed to fetch API response:", error);
     });
 }
 
