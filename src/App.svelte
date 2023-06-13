@@ -82,7 +82,7 @@
         a.click();
         URL.revokeObjectURL(url);
       } catch (error) {
-        console.error("Error downloading file:", error);
+        console.error("Error download file:", error);
       }
     };
 
