@@ -40,6 +40,7 @@
 				  const cvid = rowData.cvUrl; // Assuming cvUrl contains the CV identifier
 				  downloadCV(cvid);
 				});
+        container.appendChild(button);
       },
     },
     ];
