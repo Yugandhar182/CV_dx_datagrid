@@ -37,7 +37,7 @@
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
           downloadButton.addEventListener("click", () => {
-            downloadCV(options.data.id);
+            downloadCV(options.data.fileId);
           });
           container.appendChild(downloadButton);
         },
@@ -60,10 +60,10 @@
     });
   });
 
-  async function downloadCV(id) {
+  async function downloadCV(fileId) {
     try {
       const response = await fetch(
-        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=2d969dc4-36d3-47b9-9d40-0351d1ab6f3a&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${fileId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
       );
 
       if (response.ok) {
