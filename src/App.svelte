@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
+      "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
     );
     const responseData = await response.json();
     jsonData = responseData.data;
@@ -27,92 +27,82 @@
       { dataField: "surname", caption: "Surname", width: 200 },
       { dataField: "email", caption: "Email", width: 200 },
       { dataField: "mobile", caption: "Mobile", width: 150 },
-      {
-        caption: "Download CV",
-        width: 150,
-        cellTemplate: (container, options) => {
-          const button = document.createElement("button");
-          button.classList.add("btn", "btn-primary");
-          button.innerText = "Download";
-          button.addEventListener("click", () => {
-            downloadCV(options.data.id);
-          });
-          container.appendChild(button);
-        },
-      },
+      // Add the file button column
+
       // Define other columns as needed
     ];
 
-    const dataGrid = new DevExpress.ui.dxDataGrid(
-      document.getElementById("dataGrid"),
-      {
-        dataSource: gridData,
-        columns: columns,
-        showBorders: true,
-        filterRow: {
-          visible: true,
+    const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
+      dataSource: gridData,
+      columns: columns,
+      showBorders: true,
+      filterRow: {
+        visible: true,
+      },
+      editing: {
+        allowDeleting: true,
+        allowAdding: true,
+        allowUpdating: true,
+        mode: "popup",
+        form: {
+          labelLocation: "top",
         },
-        editing: {
-          allowDeleting: true,
-          allowAdding: true,
-          allowUpdating: true,
-          mode: "popup",
-          form: {
-            labelLocation: "top",
-          },
-          popup: {
-            showTitle: true,
-            title: "Row in the editing state",
-          },
-          texts: {
-            saveRowChanges: "Save",
-            cancelRowChanges: "Cancel",
-            deleteRow: "Delete",
-            confirmDeleteMessage:
-              "Are you sure you want to delete this record?",
-          },
+        popup: {
+          showTitle: true,
+          title: "Row in the editing state",
         },
-        paging: {
-          pageSize: 10,
+        texts: {
+          saveRowChanges: "Save",
+          cancelRowChanges: "Cancel",
+          deleteRow: "Delete",
+          confirmDeleteMessage: "Are you sure you want to delete this record?",
         },
-        onInitialized: () => {},
+      },
+      paging: {
+        pageSize: 10,
+      },
+
+      onInitialized: () => {
+        
+      },
+    });
+
+    // Function to handle file download
+    const downloadFile = async (cvid) => {
+      const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+
+      try {
+        const response = await fetch(downloadUrl);
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `file_${cvid}.pdf`; // Provide a suitable name for the downloaded file
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error downloading file:", error);
       }
-    );
+    };
+
+    // Add a custom command column for the download button
+    columns.push({
+      caption: "Download",
+      width: 100,
+      cellTemplate: function (container, options) {
+        const button = document.createElement("button");
+        button.innerText = "Download";
+        button.className = "btn btn-primary";
+        button.addEventListener("click", () => {
+          downloadFile(options.data.id); // Pass the appropriate ID for the download
+        });
+        container.appendChild(button);
+      },
+    });
+
+    dataGrid.option("columns", columns);
   });
-
-  async function downloadCV(cvid) {
-  try {
-    const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-
-    if (response.ok) {
-      // Extract the file name from the response headers
-      const contentDisposition = response.headers.get("content-disposition");
-      const fileName = contentDisposition
-        ? contentDisposition.split("filename=")[1]
-        : "CV_File";
-
-      // Create a temporary download link and trigger the download
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "CV.pdf";
-      link.click();
-
-      // Show success message
-      alert("CV downloaded successfully!");
-    } else {
-      console.error("CV download failed.");
-      // Handle the error accordingly
-    }
-  } catch (error) {
-    console.error("CV download error:", error);
-    // Handle the error accordingly
-  }
-}
-
 </script>
 
 <style>
