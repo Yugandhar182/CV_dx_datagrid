@@ -33,7 +33,7 @@
         caption: "Actions",
         width: 150,
         cellTemplate: function (container, options) {
-          console.log(options.data)
+          console.log("Options Data:", options.data);
           const downloadButton = document.createElement("a");
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
