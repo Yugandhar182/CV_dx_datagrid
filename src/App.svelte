@@ -24,8 +24,8 @@
 
 
   
-	async function downloadFile(cvid) {
-	  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+	async function downloadFile(id) {
+	  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${id}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
   
 	  // Fetch the file
 	  const response = await fetch(downloadUrl);
@@ -36,7 +36,7 @@
 	  // Create a temporary anchor element to initiate the download
 	  const link = document.createElement("a");
 	  link.href = URL.createObjectURL(fileBlob);
-	  link.download = `file-${cvid}.pdf`; // Specify the file name here
+	  link.download = `file-${id}.txt`; // Specify the file name here
 	  link.click();
 	}
   
