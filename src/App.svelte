@@ -69,8 +69,8 @@
 
     // Function to handle file download
   // Function to handle file download
-const downloadFile = async (cvId) => {
-  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+const downloadFile = async (cvid) => {
+  const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
 
   try {
     const response = await fetch(downloadUrl);
