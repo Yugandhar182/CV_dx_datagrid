@@ -40,7 +40,7 @@
 
           link.addEventListener("click", async () => {
             const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+              `https://api.recruitly.io/api/candidatecv/${candidateId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
             );
             const cvData = await cvResponse.json();
 
