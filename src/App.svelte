@@ -24,7 +24,7 @@
             surname: item.surname,
             email: item.email,
             mobile: item.mobile,
-            cvid: additional.cvid // Access cvid from additional properties
+           
           };
         });
 
@@ -77,8 +77,9 @@
   async function downloadCV(cvid) {
     console.log("cvid:", cvid);
     try {
-      const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-      const response = await fetch(downloadUrl);
+      const response = await fetch(
+        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+      );
 
       if (response.ok) {
         const blob = await response.blob();
