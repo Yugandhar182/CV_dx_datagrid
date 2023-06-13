@@ -16,15 +16,17 @@
         const responseData = await response.json();
         jsonData = responseData.data;
 
-        gridData = jsonData.map((item) => ({
-          id: item.id,
-          firstName: item.firstName,
-          surname: item.surname,
-          email: item.email,
-          mobile: item.mobile,
-          cvid: item.cvid
-          
-        }));
+        gridData = jsonData.map((item) => {
+          const additional = item.additional || {}; // Check if additional properties exist
+          return {
+            id: item.id,
+            firstName: item.firstName,
+            surname: item.surname,
+            email: item.email,
+            mobile: item.mobile,
+            cvid: additional.cvid // Access cvid from additional properties
+          };
+        });
 
         const columns = [
           { dataField: "id", caption: "ID", width: 250 },
@@ -62,7 +64,6 @@
             paging: {
               pageSize: 10,
             },
-           
           }
         );
       } else {
@@ -74,7 +75,7 @@
   });
 
   async function downloadCV(cvid) {
-    console.log( cvid);
+    console.log("cvid:", cvid);
     try {
       const response = await fetch(
         `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
