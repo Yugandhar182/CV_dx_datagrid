@@ -69,12 +69,12 @@
 
       if (response.ok) {
         const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
+        const cvid = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = url;
+        link.href = cvid;
         link.download = "name.pdf"; // Replace with the desired file name
         link.click();
-        URL.revokeObjectURL(url.href);
+        URL.revokeObjectURL(cvid);
       } else {
         console.error("Failed to download CV.");
       }
