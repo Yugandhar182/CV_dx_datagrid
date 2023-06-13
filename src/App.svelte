@@ -64,7 +64,7 @@
     console.log("File ID being sent to API:", fileId);
     try {
       const response = await fetch(
-        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${fileId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${options.data.fileId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
       );
 
       if (response.ok) {
