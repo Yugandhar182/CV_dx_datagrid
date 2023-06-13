@@ -80,36 +80,37 @@
     );
   });
 
-  function downloadCV(cvid) {
-  const apiUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
-  
-  fetch(apiUrl)
-    .then(response => response.blob())
-    .then(blob => {
-      // Create a temporary anchor element
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "CV.pdf";
-      
-      // Trigger a click event on the anchor element
-      link.click();
-      
-      // Clean up the temporary anchor element
-      URL.revokeObjectURL(link.href);
-    })
-    .catch(error => {
-      console.error("Failed to download CV:", error);
-    });
+  async function downloadCV(cvid) {
+  try {
+    const response = await fetch(
+      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+    );
 
-  // Log the API response
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      console.log("API response:", data);
-    })
-    .catch(error => {
-      console.error("Failed to fetch API response:", error);
-    });
+    if (response.ok) {
+      // Extract the file name from the response headers
+      const contentDisposition = response.headers.get("content-disposition");
+      const fileName = contentDisposition
+        ? contentDisposition.split("filename=")[1]
+        : "CV_File";
+
+      // Create a temporary download link and trigger the download
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "CV.pdf";
+      link.click();
+
+      // Show success message
+      alert("CV downloaded successfully!");
+    } else {
+      console.error("CV download failed.");
+      // Handle the error accordingly
+    }
+  } catch (error) {
+    console.error("CV download error:", error);
+    // Handle the error accordingly
+  }
 }
 
 </script>
