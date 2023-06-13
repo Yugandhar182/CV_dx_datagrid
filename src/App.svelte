@@ -17,7 +17,7 @@
         jsonData = responseData.data;
 
         gridData = jsonData.map((item) => {
-          const additional = item.additional || {}; // Check if additional properties exist
+          
           return {
             id: item.id,
             firstName: item.firstName,
