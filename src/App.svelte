@@ -43,16 +43,19 @@
               `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
             );
             const cvData = await cvResponse.json();
-                
-            console.log(cvResponse.status)
-            if (cvData.cvid) {
-              const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvData.cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-              const downloadLink = document.createElement("a");
-              downloadLink.href = downloadUrl;
-              downloadLink.download = "CV.pdf";
-              downloadLink.click();
+
+            if (cvResponse.ok) {
+              if (cvData.cvid) {
+                const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvData.cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+                const downloadLink = document.createElement("a");
+                downloadLink.href = downloadUrl;
+                downloadLink.download = "CV.txt";
+                downloadLink.click();
+              } else {
+                console.error("Failed to retrieve CV file.");
+              }
             } else {
-              console.error("Failed to retrieve CV file.");
+              console.error("Failed to fetch CV data.");
             }
           });
         },
@@ -89,7 +92,6 @@
       paging: {
         pageSize: 10,
       },
-
       onInitialized: () => {
         // Any additional initialization code
       },
