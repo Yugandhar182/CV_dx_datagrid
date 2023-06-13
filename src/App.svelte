@@ -86,7 +86,7 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "CV.pdf"; // Replace with the desired file name
+        link.download = "CV.txt"; // Replace with the desired file name
         link.click();
         URL.revokeObjectURL(url);
       } else {
