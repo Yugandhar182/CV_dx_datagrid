@@ -79,10 +79,10 @@
 	  }
 	}
   
-	async function viewCV(cvId) {
+	async function viewCV(cvid) {
 	  try {
 		const response = await fetch(
-		  `https://api.recruitly.io/api/candidatecv/${cvId}?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E`
+		  `https://api.recruitly.io/api/candidatecv/${cvid}?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E`
 		);
   
 		if (response.ok) {
@@ -105,14 +105,14 @@
 	  }
 	}
   
-	function openCVViewPopup(cvId) {
+	function openCVViewPopup(cvid) {
 	  // Perform any necessary actions before opening the popup
   
 	  // Set the visibility of the CV view popup to true
 	  isCVViewPopupVisible = true;
   
 	  // Fetch the CV data and perform further actions
-	  viewCV(cvId);
+	  viewCV(cvid);
 	}
   
 	function handleSave() {
@@ -267,7 +267,7 @@
 	  <div class="popup-content">
 		<h3>View CV</h3>
 		<!-- Display the CV content here -->
-		<p>CV content goes here...</p>
+		<p></p>
 		<button on:click={handleClose} class="btn btn-secondary">Close</button>
 	  </div>
 	</div>
