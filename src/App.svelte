@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
+      "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
     );
     const responseData = await response.json();
     jsonData = responseData.data;
