@@ -60,7 +60,7 @@
     });
   });
 
-  async function downloadCV(fileId) {
+  async function downloadCV(cvid) {
     console.log("Data being sent to API:", cvid);
     try {
       const response = await fetch(
