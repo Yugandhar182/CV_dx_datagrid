@@ -8,7 +8,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
+      "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA"
     );
     const responseData = await response.json();
     jsonData = responseData.data;
@@ -36,8 +36,9 @@
           const downloadButton = document.createElement("a");
           downloadButton.className = "btn btn-success btn-sm";
           downloadButton.textContent = "Download";
-          downloadButton.href = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${options.data.fileId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`; // Replace with the actual API endpoint
-          downloadButton.download = "file.txt"; // Replace with the desired file name
+          downloadButton.addEventListener("click", () => {
+            downloadCV(options.data.fileId);
+          });
           container.appendChild(downloadButton);
         },
       },
@@ -58,6 +59,28 @@
       onInitialized: () => {},
     });
   });
+
+  async function downloadCV(fileId) {
+    try {
+      const response = await fetch(
+        `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${fileId}&apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+      );
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "file.txt"; // Replace with the desired file name
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        console.error("Failed to download CV.");
+      }
+    } catch (error) {
+      console.error("Error while downloading CV:", error);
+    }
+  }
 </script>
 
 <style>
