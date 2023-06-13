@@ -7,7 +7,7 @@
 	let gridData = [];
   
 	async function fetchCandidateData(candidateId) {
-	  const apiUrl = `https://api.recruitly.io/api/candidatecv/${candidateId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+	  const apiUrl = `https://api.recruitly.io/api/candidatecv/${options.data.cvid}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
 
 	  const response = await fetch(apiUrl);
 	  const data = await response.json();
