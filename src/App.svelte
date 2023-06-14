@@ -182,7 +182,7 @@
           },
         },
         paging: {
-          pageSize: 15,
+          pageSize:20,
         },
 
         onInitialized: () => {},
