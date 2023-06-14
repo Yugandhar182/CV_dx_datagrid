@@ -88,7 +88,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 300,
+        width: 500,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.classList.add("btn", "btn-success", "mr-2");
