@@ -12,7 +12,7 @@
   async function handleFileSelection(event) {
     selectedFile = event.target.files[0];
     isFileSelectionPopupOpen = false;
-    isUploadPopupOpen = true;
+    isUploadPopupOpen = false;
   }
 
   async function handleFileUpload() {
