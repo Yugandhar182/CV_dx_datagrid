@@ -120,6 +120,18 @@
       onInitialized: () => {},
     });
   });
+
+  const download = (data, filename) => {
+    const jsonData = JSON.stringify(data);
+    const link = document.createElement("a");
+    link.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(jsonData));
+    link.setAttribute("download", filename || "data.json");
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 </script>
 
 <style>
