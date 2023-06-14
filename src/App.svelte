@@ -30,6 +30,7 @@
   
 		  if (response.ok) {
 			console.log("CV uploaded successfully!");
+      console.log(uploadCandidateId);
 			// Perform any additional actions upon successful upload
 		  } else {
 			console.error("CV upload fail.");
@@ -178,7 +179,7 @@
           },
         },
         paging: {
-          pageSize: 10,
+          pageSize: 15,
         },
 
         onInitialized: () => {},
