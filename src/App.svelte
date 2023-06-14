@@ -5,6 +5,27 @@
 
   let jsonData = [];
   let gridData = [];
+  let selectedFile = null;
+  let isFileSelectionPopupOpen = false;
+  let isUploadPopupOpen = false;
+
+  async function handleFileSelection(event) {
+    selectedFile = event.target.files[0];
+    isFileSelectionPopupOpen = false;
+    isUploadPopupOpen = true;
+  }
+
+  async function handleFileUpload() {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    // Add your file upload logic here
+    // ...
+
+    isUploadPopupOpen = false;
+    selectedFile = null;
+  }
+
 
   onMount(async () => {
     const response = await fetch(
@@ -286,3 +307,23 @@ viewButton.addEventListener("click", async () => {
 <h1 style="color: blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
+
+
+{#if isFileSelectionPopupOpen}
+  <div class="popup-container">
+    <div class="popup-content">
+      <h3>Select your file</h3>
+      <input type="file" accept=".pdf,.doc,.docx" on:change={handleFileSelection} />
+    </div>
+  </div>
+{/if}
+
+{#if isUploadPopupOpen}
+  <div class="popup-container">
+    <div class="popup-content">
+      <h3>Uploading file...</h3>
+      <!-- Add your file upload progress indicators or messages here -->
+      <button on:click={handleFileUpload}>Upload</button>
+    </div>
+  </div>
+{/if}
