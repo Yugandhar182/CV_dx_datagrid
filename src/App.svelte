@@ -205,7 +205,7 @@
             gridData.push(e.newData);
             gridData[updatedItemIndex] = e.newData;
             dataGrid.refresh();
-            alert("Edited successfully.");
+            alert(" Record edited successfully.");
           } else {
             console.error("Failed to update record:", responseData.error);
           }
@@ -227,7 +227,7 @@
             if (removedItemIndex > -1) {
               gridData.splice(removedItemIndex, 1);
               dataGrid.refresh();
-              alert("Deleted successfully");
+              alert(" Record Deleted successfully");
             }
           } else {
             console.error("Failed to delete record.");
@@ -244,7 +244,7 @@
 
 <style>
   #dataGrid {
-    height: 400px;
+    height: 600px;
   }
 
   .popup-container {
