@@ -146,8 +146,14 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
     overflow: auto;
+    position: absolute; /* Set position to absolute */
+    top: 50%; /* Align the top edge to the middle of the viewport */
+    left: 50%; /* Align the left edge to the middle of the viewport */
+    transform: translate(-50%, -50%); /* Center the popup horizontally and vertically */
+    z-index: 99999; /* Set a higher z-index to ensure the popup is displayed above the table */
   }
 </style>
+
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
