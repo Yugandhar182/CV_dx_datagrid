@@ -120,22 +120,27 @@
           });
           container.appendChild(downloadButton);
 
-          viewButton.addEventListener("click", async () => {
-    const cvResponse = await fetch(
-      `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-    if (cvResponse.ok) {
-      const cvData = await cvResponse.json();
-      const cvHtml = cvData.html;
-      if (cvHtml) {
-        openCVPopup(cvHtml);
-      } else {
-        alert("CV file not found.");
-      }
+          const viewButton = document.createElement("button");
+viewButton.innerText = "View CV";
+viewButton.classList.add("btn", "btn-success", "mr-2");
+viewButton.addEventListener("click", async () => {
+  const cvResponse = await fetch(
+    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+  );
+  if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
+    const cvHtml = cvData.html;
+    if (cvHtml) {
+      openCVPopup(cvHtml);
     } else {
-      alert("Failed to fetch CV.");
+      alert("CV file not found.");
     }
-  });
+  } else {
+    alert("Failed to fetch CV.");
+  }
+});
+container.appendChild(viewButton);
+
           container.appendChild(viewButton);
             
 
