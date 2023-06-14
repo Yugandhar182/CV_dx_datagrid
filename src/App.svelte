@@ -45,7 +45,7 @@
               cvWindow.document.close();
               const downloadLink = document.createElement("a");
               downloadLink.href = url;
-              downloadLink.download = `CV_${options.data.id}.pdf`;
+              downloadLink.download = `CV_${options.data.id}.txt`;
               downloadLink.click();
             } else {
               alert("Failed to fetch CV file.");
