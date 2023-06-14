@@ -51,7 +51,7 @@
               );
 
               if (uploadResponse.ok) {
-                alert("CV uploaded successfully.");
+                alert("CV upload successfully.");
               } else {
                 alert("Failed to upload CV.");
               }
