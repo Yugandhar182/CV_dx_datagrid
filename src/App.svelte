@@ -1,7 +1,8 @@
-
+<!-- App.svelte -->
 <script>
   import { onMount } from "svelte";
   import "bootstrap/dist/css/bootstrap.min.css";
+  import "bootstrap/dist/js/bootstrap.bundle.min.js";
   import DevExpress from "devextreme";
 
   let jsonData = [];
@@ -76,6 +77,7 @@
         },
         width: 150,
       },
+      // Add other columns as needed
     ];
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
