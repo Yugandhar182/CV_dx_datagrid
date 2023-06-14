@@ -73,9 +73,19 @@
 			{ dataField: "mobile", caption: "Mobile", width: 150 },
 			
       {
+
         caption: "Actions",
-        width: 250,
-        cellTemplate: function (container, options) {
+			  width: 400,
+			  cellTemplate: function (container, options) {
+				const cvUploadButton = document.createElement("button");
+				cvUploadButton.innerText = "CV Upload";
+				cvUploadButton.classList.add("btn", "btn-success", "mr-2");
+				cvUploadButton.addEventListener("click", function () {
+				  const rowData = options.data;
+				  selectedRowData = rowData;
+				  isCVUploadPopupVisible = true;
+				});
+  
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
           downloadButton.addEventListener("click", async () => {
