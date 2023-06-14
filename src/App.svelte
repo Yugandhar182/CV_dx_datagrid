@@ -33,6 +33,8 @@
         caption: "Actions",
         width: 250,
         cellTemplate: function (container, options) {
+          const buttonContainer = document.createElement("div");
+
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
           downloadButton.addEventListener("click", async () => {
@@ -48,7 +50,7 @@
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(downloadButton);
+          buttonContainer.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
@@ -64,7 +66,9 @@
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(viewButton);
+          buttonContainer.appendChild(viewButton);
+
+          container.appendChild(buttonContainer);
         },
         width: 250,
       },
@@ -114,6 +118,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
   }
 
   .popup-content {
@@ -121,22 +126,28 @@
     padding: 20px;
     border-radius: 4px;
   }
+
+  .data-grid-container {
+    position: relative;
+  }
 </style>
 
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
-<div id="dataGrid"></div>
+<div class="data-grid-container">
+  <div id="dataGrid"></div>
 
-{#if popupVisible}
-  <div class="popup-overlay">
-    <div class="popup-content">
-      <button class="btn btn-secondary" on:click={() => { popupVisible = false; }}>
-        Close
-      </button>
-      {#if cvHtml}
-        <div innerHTML={cvHtml} class="popup-cv-content"></div>
-      {/if}
+  {#if popupVisible}
+    <div class="popup-overlay">
+      <div class="popup-content">
+        <button class="btn btn-secondary" on:click={() => { popupVisible = false; }}>
+          Close
+        </button>
+        {#if cvHtml}
+          <div innerHTML={cvHtml} class="popup-cv-content"></div>
+        {/if}
+      </div>
     </div>
-  </div>
-{/if}
+  {/if}
+</div>
