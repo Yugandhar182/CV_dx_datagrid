@@ -49,7 +49,7 @@
 
               const downloadLink = document.createElement("a");
               downloadLink.href = downloadUrl;
-              downloadLink.download = CV.pdf;
+              downloadLink.download = file.pdf;
               downloadLink.click();
             } else {
               console.error("Failed to retrieve CV file.");
