@@ -29,7 +29,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width:250,
+        width: 250,
         cellTemplate: function (container, options) {
           const downloadLink = document.createElement("a");
           downloadLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
@@ -40,19 +40,28 @@
             event.preventDefault();
             const cvResponse = await fetch(downloadLink.href);
             if (cvResponse.ok) {
-              const cvBlob = await cvResponse.blob();
-              const cvUrl = URL.createObjectURL(cvBlob);
-              const cvLink = document.createElement("a");
-              cvLink.href = cvUrl;
-              cvLink.download = downloadLink.download;
-              cvLink.click();
-              URL.revokeObjectURL(cvUrl);
+              const cvData = await cvResponse.json();
+              const cloudFileId = cvData.cloudFileId;
+
+              const fileDownloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cloudFileId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+              const fileResponse = await fetch(fileDownloadUrl);
+              if (fileResponse.ok) {
+                const fileBlob = await fileResponse.blob();
+                const fileUrl = URL.createObjectURL(fileBlob);
+                const fileLink = document.createElement("a");
+                fileLink.href = fileUrl;
+                fileLink.download = downloadLink.download;
+                fileLink.click();
+                URL.revokeObjectURL(fileUrl);
+              } else {
+                alert("Failed to fetch file.");
+              }
             } else {
               alert("Failed to fetch CV file.");
             }
           });
           container.appendChild(downloadLink);
-            
+
           const viewLink = document.createElement("a");
           viewLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
           viewLink.target = "_blank";
@@ -76,7 +85,7 @@
           });
           container.appendChild(viewLink);
         },
-        width: 150,
+        width: 250,
       },
       // Add other columns as needed
     ];
