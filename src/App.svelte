@@ -31,38 +31,73 @@
         caption: "Actions",
         width: 250,
         cellTemplate: function (container, options) {
+          const downloadButton = document.createElement("button");
+          downloadButton.innerText = "Download CV";
+          downloadButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvId = cvData.CVId;
+
+              if (cvId && typeof cvId === 'string' && cvId.trim() !== '') {
+                const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+
+                const link = document.createElement("a");
+                link.href = downloadLink;
+                link.download = `CV_${options.data.id}.pdf`;
+                link.style.display = "none";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              } else {
+                alert("CV file not found or CVId is invalid.");
+              }
+            } else {
+              alert("Failed to fetch CV file.");
+            }
+          });
+          container.appendChild(downloadButton);
+
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
-         
-viewButton.addEventListener("click", async () => {
-  console.log(cvData);
+          viewButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvId = cvData.CVId;
 
-  const cvResponse = await fetch(
-    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-  );
-  if (cvResponse.ok) {
-    const cvData = await cvResponse.json();
-    const cvId = cvData.CVId;
+              if (cvId && typeof cvId === 'string' && cvId.trim() !== '') {
+                const cvHtml = cvData.html;
+                if (cvHtml) {
+                  const popupContainer = document.createElement("div");
+                  popupContainer.classList.add("popup-container");
 
-    if (cvId && typeof cvId === 'string' && cvId.trim() !== '') {
-      const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+                  const closeButton = document.createElement("button");
+                  closeButton.innerText = "Close";
+                  closeButton.addEventListener("click", () => {
+                    document.body.removeChild(popupContainer);
+                  });
+                  popupContainer.appendChild(closeButton);
 
-      const link = document.createElement("a");
-      link.href = downloadLink;
-      link.download = `CV_${options.data.id}.pdf`;
-      link.style.display = "none";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      alert("CV file not found or CVId is invalid.");
-    }
-  } else {
-    alert("Failed to fetch CV file.");
-  }
-});
+                  const cvContent = document.createElement("div");
+                  cvContent.innerHTML = cvHtml;
+                  popupContainer.appendChild(cvContent);
 
-
+                  document.body.appendChild(popupContainer);
+                } else {
+                  alert("CV file not found.");
+                }
+              } else {
+                alert("CV file not found or CVId is invalid.");
+              }
+            } else {
+              alert("Failed to fetch CV file.");
+            }
+          });
           container.appendChild(viewButton);
         },
         width: 250,
