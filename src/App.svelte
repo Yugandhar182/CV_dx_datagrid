@@ -88,7 +88,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 4000,
+        width: 400,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.classList.add("btn", "btn-success", "mr-2");
@@ -113,7 +113,7 @@
           container.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
-          viewButton.classList.add("btn", "btn-primarys", "mr-2");
+          viewButton.classList.add("btn", "btn-primary", "mr-2");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
             const cvResponse = await fetch(
