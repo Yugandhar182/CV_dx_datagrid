@@ -102,7 +102,7 @@ viewButton.addEventListener("click", async () => {
 
       document.body.appendChild(popupContainer);
     } else {
-      alert("CVfile not found.");
+      alert("CV file not found.");
     }
   } else {
     alert("Failed to fetch CV file.");
