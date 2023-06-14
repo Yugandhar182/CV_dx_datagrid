@@ -116,7 +116,7 @@ viewButton.addEventListener("click", async () => {
          
           uploadButton.innerText = "Upload CV";
           uploadButton.addEventListener("click", async () => {
-            isFileSelectionPopupOpen = true; 
+            
             const fileInput = document.createElement("input");
             fileInput.type = "file";
             fileInput.accept = ".pdf,.doc,.docx";
