@@ -124,25 +124,24 @@
 </script>
 
 <style>
-  #dataGrid {
-    height: 400px;
-  }
-
-  .popup-container {
-    position: fixed;
-    top: 20px; /* Adjust the top position as needed */
-    left: 20px; /* Adjust the left position as needed */
-    z-index: 9999;
-  }
-
-  .popup-content {
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    overflow: auto;
-  }
-</style>
-
+	.popup-overlay {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+  
+	.popup-content {
+	  background-color: white;
+	  padding: 20px;
+	  border-radius: 4px;
+	}
+	</style>
 
 
 <h1 style="color: blue;">Job Candidate Details</h1>
