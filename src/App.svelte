@@ -18,7 +18,7 @@
   };
 
   
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (options) => {
     console.log(options.data);
   if (selectedFile) {
     const formData = new FormData();
