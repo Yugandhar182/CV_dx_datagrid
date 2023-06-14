@@ -82,7 +82,7 @@
   } else {
     alert("Failed to fetch CV.");
   }
-  container.appendChild(viewButton);
+  
 });
 
 
