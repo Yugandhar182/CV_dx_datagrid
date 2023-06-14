@@ -142,7 +142,7 @@
   }
 
   .popup-content {
-    background-color: white;
+    background-color: rgb(14, 24, 158);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
     overflow: auto;
