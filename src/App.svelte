@@ -126,7 +126,7 @@
         container.appendChild(cvUploadButton);
           
         },
-       
+        width: 250,
       },
       // Add other columns as needed
     ];
