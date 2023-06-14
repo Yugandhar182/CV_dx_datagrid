@@ -124,7 +124,7 @@
 <style>
   .popup-container {
     position: fixed;
-    top: 20px;
+    top: 80px;
     right: 20px;
     background-color: white;
     border: 1px solid black;
