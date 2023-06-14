@@ -122,29 +122,7 @@
   });
 </script>
 
-<style>
-  #dataGrid {
-    height: 400px;
-  }
 
-  .popup-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    overflow: auto;
-  }
-
-  .popup-container button {
-    display: block;
-    margin-bottom: 10px;
-  }
-</style>
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
