@@ -8,7 +8,7 @@
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
 	
-	let selectedCVId = null // Add a variable to store the selected CV identifier
+	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
 	  // Perform further actions with the uploaded file
   
@@ -29,6 +29,7 @@
 		  );
   
 		  if (response.ok) {
+        alert("file uploaded successfully");
 			console.log("CV uploaded successfully!");
       console.log(uploadCandidateId);
 			// Perform any additional actions upon successful upload
