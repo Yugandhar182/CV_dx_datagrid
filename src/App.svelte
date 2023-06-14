@@ -3,12 +3,8 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import DevExpress from "devextreme";
 
- 
-
   let jsonData = [];
   let gridData = [];
-
- 
 
   onMount(async () => {
     const response = await fetch(
@@ -17,8 +13,6 @@
     const responseData = await response.json();
     jsonData = responseData.data;
 
- 
-
     gridData = jsonData.map((item) => ({
       id: item.id,
       firstName: item.firstName,
@@ -26,8 +20,6 @@
       email: item.email,
       mobile: item.mobile,
     }));
-
- 
 
     const columns = [
       { dataField: "id", caption: "ID", width: 250 },
@@ -47,7 +39,7 @@
             );
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
-             console.log(cvData);
+              console.log(cvData);
               const cvId = cvData.internal.cloudFile.id;
               console.log(cvData.internal.cloudFile);
               console.log(cvId);
@@ -59,8 +51,6 @@
             }
           });
           container.appendChild(downloadButton);
-
- 
 
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
@@ -79,17 +69,32 @@
                 alert("CV file not found.");
               }
             } else {
-              alert("Failed to fetch .");
+              alert("Failed to fetch.");
             }
           });
           container.appendChild(viewButton);
+
+          // Upload CV button
+          const uploadButton = document.createElement("button");
+          uploadButton.innerText = "Upload CV";
+          uploadButton.addEventListener("click", async () => {
+            const uploadCandidateId = options.data.id;
+            const uploadResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`,
+              { method: "POST" }
+            );
+            if (uploadResponse.ok) {
+              alert("CV uploaded successfully.");
+            } else {
+              alert("Failed to upload CV.");
+            }
+          });
+          container.appendChild(uploadButton);
         },
         width: 250,
       },
       // Add other columns as needed
     ];
-
- 
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
       document.getElementById("dataGrid"),
@@ -123,16 +128,11 @@
         paging: {
           pageSize: 10,
         },
-
- 
-
         onInitialized: () => {},
       }
     );
   });
 </script>
-
- 
 
 <style>
   #dataGrid {
@@ -140,10 +140,6 @@
   }
 </style>
 
- 
-
 <h1 style="color: blue;">Job Candidate Details</h1>
-
- 
 
 <div id="dataGrid"></div>
