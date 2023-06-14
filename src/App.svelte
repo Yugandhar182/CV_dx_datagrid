@@ -5,27 +5,51 @@
 
   let jsonData = [];
   let gridData = [];
-  let selectedFile = null;
   let isFileSelectionPopupOpen = false;
-  let isUploadPopupOpen = false;
-  let fileInput;
+  let selectedFile = null;
 
-  async function handleFileSelection(event) {
+  const handleFileSelection = (event) => {
     selectedFile = event.target.files[0];
-    isFileSelectionPopupOpen = false;
-    isUploadPopupOpen = false;
-  }
+  };
 
-  async function handleFileUpload() {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
+  const handleUploadCV = async (candidateId) => {
+    isFileSelectionPopupOpen = true;
+  };
 
-    // Add your file upload logic here
-    // ...
+  const handleFileUpload = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
 
-    isUploadPopupOpen = false;
+      try {
+        const response = await fetch(
+          `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          alert("CV uploaded successfully.");
+          // Perform any additional actions after successful upload
+        } else {
+          alert("Failed to upload CV.");
+        }
+      } catch (error) {
+        console.error("Failed to upload CV:", error);
+      }
+    } else {
+      alert("Please select a file to upload.");
+    }
+
+    // Reset file selection and close the popup
     selectedFile = null;
-  }
+    isFileSelectionPopupOpen = false;
+  };
+ 
+
+  
 
 
   onMount(async () => {
@@ -109,42 +133,23 @@ viewButton.addEventListener("click", async () => {
   }
   isUploadPopupOpen = false;
     selectedFile = null;
-});
+    });
           container.appendChild(viewButton);
+          const uploadCVButton = document.createElement("button");
+  uploadCVButton.innerText = "Upload CV";
+  uploadCVButton.addEventListener("click", () => {
+    handleUploadCV(options.data.id);
+  });
+  container.appendChild(uploadCVButton);
+
        
 
-          const uploadButton = document.createElement("button");
+        
          
-          uploadButton.innerText = "Upload CV";
-          uploadButton.addEventListener("click", async () => {
-            
-            isFileSelectionPopupOpen = true;
-            
-            fileInput.addEventListener("change", async (event) => {
-              const file = event.target.files[0];
-              const formData = new FormData();
-              formData.append("file", file);
-
-              const uploadResponse = await fetch(
-                `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
-                {
-                  method: "POST",
-                  body: formData,
-                }
-              );
-
-              if (uploadResponse.ok) {
-                alert("CV upload successfully.");
-              } else {
-                alert("Failed to upload CV.");
-              }
-            });
-
-            fileInput.click();
-          });
-          container.appendChild(uploadButton);
+     
+        
         },
-        width: 400,
+      
       },
       // Add other columns as needed
     ];
@@ -318,22 +323,11 @@ viewButton.addEventListener("click", async () => {
 <h1 style="color: blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
-
-
 {#if isFileSelectionPopupOpen}
   <div class="popup-container">
     <div class="popup-content">
       <h3>Select your file</h3>
       <input type="file" accept=".pdf,.doc,.docx" on:change={handleFileSelection} />
-    </div>
-  </div>
-{/if}
-
-{#if isUploadPopupOpen}
-  <div class="popup-container">
-    <div class="popup-content">
-      <h3>Uploading file...</h3>
-      <!-- Add your file upload progress indicators or messages here -->
       <button on:click={handleFileUpload}>Upload</button>
     </div>
   </div>
