@@ -47,37 +47,27 @@
                 downloadLink.download = `CV_${options.data.id}.pdf`;
                 downloadLink.click();
               } else {
-                alert("CV file not found.");
+                triggerViewCv(options.data.id);
               }
             } else {
               alert("Failed to fetch CV file.");
             }
           });
           container.appendChild(downloadButton);
-
+        },
+        width: 125,
+      },
+      {
+        caption: "View CV",
+        width: 125,
+        cellTemplate: function (container, options) {
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
-              } else {
-                alert("CV file not found.");
-              }
-            } else {
-              alert("Failed to fetch CV file.");
-            }
+          viewButton.addEventListener("click", () => {
+            triggerViewCv(options.data.id);
           });
           container.appendChild(viewButton);
         },
-        width: 250,
       },
       // Add other columns as needed
     ];
@@ -116,6 +106,12 @@
         },
       }
     );
+
+    function triggerViewCv(candidateId) {
+      const viewCvUrl = `https://api.recruitly.io/api/candidatecv/${candidateId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+      const cvWindow = window.open(viewCvUrl, "_blank");
+      cvWindow.focus();
+    }
   });
 </script>
 
