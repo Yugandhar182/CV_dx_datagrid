@@ -41,10 +41,13 @@ if (cvResponse.ok) {
   const cvData = await cvResponse.blob();
   const cvUrl = URL.createObjectURL(cvData);
   
-  const downloadLink = document.createElement("a");
-  downloadLink.href = cvUrl;
-  downloadLink.download = `CV_${options.data.id}.pdf`;
-  downloadLink.click();
+  const viewCVData = "Your Base64 encoded data goes here";
+
+const downloadLink = document.createElement("a");
+downloadLink.href = `data:application/pdf;base64,${viewCVData}`;
+downloadLink.download = `CV_${options.data.id}.pdf`;
+downloadLink.click();
+
   
   const cvWindow = window.open(cvUrl, "_blank");
   if (cvWindow) {
