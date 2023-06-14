@@ -44,6 +44,23 @@
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
+  function handleSave() {
+	  // Perform save logic
+	  // In this case, we're updating the backend API URL in the handleSave function
+	  console.log("Save clicked");
+  
+	  // Close the CV upload popup
+	  isCVUploadPopupVisible = false;
+	}
+  
+	function handleClose() {
+	  // Perform close logic
+	  console.log("Close clicked");
+  
+	  // Close the CV upload popup or CV view popup
+	  isCVUploadPopupVisible = false;
+	  isCVViewPopupVisible = false;
+	}
   
 
   onMount(async () => {
