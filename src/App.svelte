@@ -7,6 +7,7 @@
   let gridData = [];
   let isFileSelectionPopupOpen = false;
   let selectedFile = null;
+  let fileInput;
 
   const handleFileSelection = (event) => {
     selectedFile = event.target.files[0];
