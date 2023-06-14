@@ -122,11 +122,8 @@
   });
 </script>
 
-<style>
-  #dataGrid {
-    height: 400px;
-  }
 
+ <style>
   .popup-container {
     position: fixed;
     top: 50%;
@@ -138,13 +135,24 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
     overflow: auto;
+    z-index: 9999; /* Ensures the popup is on top of other elements */
   }
 
-  .popup-container button {
-    display: block;
-    margin-bottom: 10px;
+  /* Add the following styles to center the content within the popup */
+  .popup-container::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  .popup-container div {
+    display: inline-block;
+    vertical-align: middle;
   }
 </style>
+
+
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
