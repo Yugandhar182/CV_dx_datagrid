@@ -106,13 +106,17 @@ viewButton.addEventListener("click", async () => {
   } else {
     alert("Failed to fetch CV file.");
   }
+  isUploadPopupOpen = false;
+    selectedFile = null;
 });
           container.appendChild(viewButton);
        
 
           const uploadButton = document.createElement("button");
+         
           uploadButton.innerText = "Upload CV";
           uploadButton.addEventListener("click", async () => {
+            isFileSelectionPopupOpen = true; 
             const fileInput = document.createElement("input");
             fileInput.type = "file";
             fileInput.accept = ".pdf,.doc,.docx";
