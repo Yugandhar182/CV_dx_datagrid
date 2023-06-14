@@ -131,10 +131,10 @@ viewButton.addEventListener("click", async () => {
   } else {
     alert("Failed to fetch CV file.");
   }
-  isUploadPopupOpen = false;
-    selectedFile = null;
+  
     });
           container.appendChild(viewButton);
+
           const uploadCVButton = document.createElement("button");
   uploadCVButton.innerText = "Upload CV";
   uploadCVButton.addEventListener("click", () => {
