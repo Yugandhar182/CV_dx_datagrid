@@ -5,6 +5,46 @@
 
   let jsonData = [];
   let gridData = [];
+  let isCVUploadPopupVisible = false;
+	let selectedRowData = null;
+	
+	let selectedCVId = null; // Add a variable to store the selected CV identifier
+  async function uploadCV(file) {
+	  // Perform further actions with the uploaded file
+  
+	  // Example: Update the backend API URL with the file upload
+	  const formData = new FormData();
+	  formData.append("file", file);
+  
+	  if (selectedRowData) {
+		const uploadCandidateId = selectedRowData.id; // Get the candidate ID from selectedRowData
+  
+		try {
+		  const response = await fetch(
+			`https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`,
+			{
+			  method: "POST",
+			  body: formData,
+			}
+		  );
+  
+		  if (response.ok) {
+			console.log("CV uploaded successfully!");
+			// Perform any additional actions upon successful upload
+		  } else {
+			console.error("CV upload failed.");
+			// Handle the error accordingly
+		  }
+		} catch (error) {
+		  console.error("CV upload error:", error);
+		  // Handle the error accordingly
+		}
+	  }
+  
+	  // Close the CV upload popup
+	  isCVUploadPopupVisible = false;
+	}
+  
 
   onMount(async () => {
     const response = await fetch(
@@ -73,41 +113,20 @@
             }
           });
           container.appendChild(viewButton);
+            
 
-          const uploadButton = document.createElement("button");
-  uploadButton.innerText = "Upload CV";
-  uploadButton.addEventListener("click", async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/pdf"; // Modify the file types as needed
-
-    input.addEventListener("change", async (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const uploadResponse = await fetch(
-          `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (uploadResponse.ok) {
-          alert("CV uploaded successfully.");
-          // Refresh the grid data if needed
-        } else {
-          alert("Failed to upload CV.");
-        }
-      }
-    });
-
-    input.click();
-  });
-
-  container.appendChild(uploadButton);
+          const viewCVButton = document.createElement("button");
+				viewCVButton.innerText = "View CV";
+				viewCVButton.classList.add("btn", "btn-secondary");
+				viewCVButton.addEventListener("click", function () {
+				  const rowData = options.data;
+				  const cvId = rowData.cvUrl; // Assuming cvUrl contains the CV identifier
+				  openCVViewPopup(cvId);
+				  // Implement view CV logic here
+				  console.log("View CV clicked for row:", rowData);
+				});
+        container.appendChild(cvUploadButton);
+          
         },
        
       },
@@ -161,3 +180,17 @@
 <h1 style="color: blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
+{#if isCVUploadPopupVisible}
+<div class="popup-overlay">
+  <div class="popup-content">
+  <h3>Upload CV</h3>
+  <input
+    type="file"
+    on:change="{(event) => uploadCV(event.target.files[0])}"
+    accept=".pdf,.doc,.docx"
+  />
+  <button on:click={handleSave} class="btn btn-primary">Save</button>
+  <button on:click={handleClose} class="btn btn-secondary">Close</button>
+  </div>
+</div>
+{/if}
