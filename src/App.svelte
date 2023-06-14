@@ -8,7 +8,7 @@
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
 	
-	let selectedCVId = null; // Add a variable to store the selected CV identifier
+	let selectedCVId = null // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
 	  // Perform further actions with the uploaded file
   
@@ -115,15 +115,13 @@
           container.appendChild(viewButton);
             
 
-          const viewCVButton = document.createElement("button");
-				viewCVButton.innerText = "View CV";
-				viewCVButton.classList.add("btn", "btn-secondary");
-				viewCVButton.addEventListener("click", function () {
+        	const cvUploadButton = document.createElement("button");
+				cvUploadButton.innerText = "CV Upload";
+				cvUploadButton.classList.add("btn", "btn-success", "mr-2");
+				cvUploadButton.addEventListener("click", function () {
 				  const rowData = options.data;
-				  const cvId = rowData.cvUrl; // Assuming cvUrl contains the CV identifier
-				  openCVViewPopup(cvId);
-				  // Implement view CV logic here
-				  console.log("View CV clicked for row:", rowData);
+				  selectedRowData = rowData;
+				  isCVUploadPopupVisible = true;
 				});
         container.appendChild(cvUploadButton);
           
