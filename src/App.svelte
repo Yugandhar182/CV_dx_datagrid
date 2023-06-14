@@ -7,13 +7,6 @@
   let gridData = [];
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
-  let isCVViewPopupVisible = false;
-  let selectedCVHtml = "";
-
-  function openCVPopup(cvHtml) {
-    selectedCVHtml = cvHtml;
-    isCVViewPopupVisible = true;
-  }
 	
 	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
@@ -121,29 +114,26 @@
           container.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
-viewButton.innerText = "View CV";
-viewButton.classList.add("btn", "btn-success", "mr-2");
-viewButton.addEventListener("click", async () => {
-  
-  const cvResponse = await fetch(
-    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-  );
-  if (cvResponse.ok) {
-    const cvData = await cvResponse.json();
-    const cvHtml = atob(cvData.html);
-    if (cvHtml) {
-  openCVPopup(cvHtml);
-}
-   else {
-      alert("CV file not found.");
-    }
-  } else {
-    alert("Failed to fetch CV.");
-  } 
-   
-});
-container.appendChild(viewButton);
-
+          viewButton.classList.add("btn", "btn-primary", "mr-2");
+          viewButton.innerText = "View CV";
+          viewButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvHtml = cvData.html;
+              if (cvHtml) {
+                const cvWindow = window.open("", "_blank");
+                cvWindow.document.write(cvHtml);
+                cvWindow.document.close();
+              } else {
+                alert("CV file not found.");
+              }
+            } else {
+              alert("Failed to fetch CV.");
+            }
+          });
           container.appendChild(viewButton);
             
 
@@ -331,13 +321,3 @@ container.appendChild(viewButton);
   </div>
 </div>
 {/if}
-{#if isCVViewPopupVisible}
-<div class="popup-overlay">
-  <div class="popup-content">
-    <h3>View CV</h3>
-    <div id="cvContainer">{selectedCVHtml}</div>
-    <button on:click={handleClose} class="btn btn-secondary">Close</button>
-  </div>
-</div>
-{/if}
-
