@@ -17,6 +17,7 @@
   };
 
   const handleFileUpload = async (options) => {
+  if (options && options.data && options.data.id) {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
@@ -46,8 +47,11 @@
     // Reset file selection and close the popup
     selectedFile = null;
     isFileSelectionPopupOpen = false;
-  };
- 
+  } else {
+    console.error("Invalid options or missing data.id property");
+  }
+};
+
 
   
 
