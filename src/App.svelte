@@ -40,6 +40,9 @@
             if (cvResponse.ok) {
               const cvData = await cvResponse.blob();
               const url = URL.createObjectURL(cvData);
+              const cvWindow = window.open("", "_blank");
+              cvWindow.document.write(`<iframe src="${url}" style="width:100%; height:100%;" frameborder="0"></iframe>`);
+              cvWindow.document.close();
               const downloadLink = document.createElement("a");
               downloadLink.href = url;
               downloadLink.download = `CV_${options.data.id}.pdf`;
