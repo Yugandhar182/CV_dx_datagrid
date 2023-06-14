@@ -3,8 +3,12 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import DevExpress from "devextreme";
 
+ 
+
   let jsonData = [];
   let gridData = [];
+
+ 
 
   onMount(async () => {
     const response = await fetch(
@@ -12,6 +16,8 @@
     );
     const responseData = await response.json();
     jsonData = responseData.data;
+
+ 
 
     gridData = jsonData.map((item) => ({
       id: item.id,
@@ -21,6 +27,8 @@
       mobile: item.mobile,
     }));
 
+ 
+
     const columns = [
       { dataField: "id", caption: "ID", width: 250 },
       { dataField: "firstName", caption: "Full Name", width: 200 },
@@ -29,36 +37,33 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
+        width: 250,
         cellTemplate: function (container, options) {
-          const downloadLink = document.createElement("a");
-          downloadLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
-          downloadLink.target = "_blank";
-          downloadLink.download = `CV_${options.data.id}.pdf`;
-          downloadLink.innerText = "Download CV";
-          downloadLink.addEventListener("click", async (event) => {
-            event.preventDefault();
-            const cvResponse = await fetch(downloadLink.href);
+          const downloadButton = document.createElement("button");
+          downloadButton.innerText = "Download CV";
+          downloadButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
             if (cvResponse.ok) {
-              const cvBlob = await cvResponse.blob();
-              const cvUrl = URL.createObjectURL(cvBlob);
-              const cvLink = document.createElement("a");
-              cvLink.href = cvUrl;
-              cvLink.download = downloadLink.download;
-              cvLink.click();
-              URL.revokeObjectURL(cvUrl);
+              const cvData = await cvResponse.json();
+              const cvId = cvData.CVId;
+              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+              window.open(downloadLink);
             } else {
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(downloadLink);
+          container.appendChild(downloadButton);
 
-          const viewLink = document.createElement("a");
-          viewLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
-          viewLink.target = "_blank";
-          viewLink.innerText = "View CV";
-          viewLink.addEventListener("click", async (event) => {
-            event.preventDefault();
-            const cvResponse = await fetch(viewLink.href);
+ 
+
+          const viewButton = document.createElement("button");
+          viewButton.innerText = "View CV";
+          viewButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
               const cvHtml = cvData.html;
@@ -73,12 +78,14 @@
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(viewLink);
+          container.appendChild(viewButton);
         },
-        width: 150,
+        width: 250,
       },
       // Add other columns as needed
     ];
+
+ 
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
       document.getElementById("dataGrid"),
@@ -113,11 +120,15 @@
           pageSize: 10,
         },
 
+ 
+
         onInitialized: () => {},
       }
     );
   });
 </script>
+
+ 
 
 <style>
   #dataGrid {
@@ -125,6 +136,14 @@
   }
 </style>
 
+ 
+
 <h1 style="color: blue;">Job Candidate Details</h1>
 
+ 
+
 <div id="dataGrid"></div>
+
+
+has context menu
+Compose
