@@ -123,7 +123,7 @@
 </script>
 
 
- <style>
+<style>
   .popup-container {
     position: fixed;
     top: 50%;
@@ -135,22 +135,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
     overflow: auto;
-    z-index: 9999; /* Ensures the popup is on top of other elements */
-  }
-
-  /* Add the following styles to center the content within the popup */
-  .popup-container::before {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-  }
-
-  .popup-container div {
-    display: inline-block;
-    vertical-align: middle;
+    z-index: 9999;
+    display: flex; /* Add this property */
+    align-items: center; /* Add this property */
+    justify-content: center; /* Add this property */
   }
 </style>
+
 
 
 
