@@ -227,7 +227,7 @@
             if (removedItemIndex > -1) {
               gridData.splice(removedItemIndex, 1);
               dataGrid.refresh();
-              alert("Deleted successfully.");
+              alert("Deleted successfully");
             }
           } else {
             console.error("Failed to delete record.");
