@@ -40,7 +40,7 @@
 
           link.addEventListener("click", async () => {
             const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
             );
             const cvData = await cvResponse.json();
 
@@ -49,7 +49,7 @@
 
               const downloadLink = document.createElement("a");
               downloadLink.href = downloadUrl;
-              downloadLink.download = "CV.txt";
+              downloadLink.download = CV.pdf;
               downloadLink.click();
             } else {
               console.error("Failed to retrieve CV file.");
