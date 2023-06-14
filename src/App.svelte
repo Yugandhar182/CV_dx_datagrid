@@ -39,26 +39,16 @@
             );
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const popupContainer = document.createElement("div");
-                popupContainer.classList.add("popup-container");
+              const cvId = cvData.CVId;
+              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
 
-                const closeButton = document.createElement("button");
-                closeButton.innerText = "Close";
-                closeButton.addEventListener("click", () => {
-                  document.body.removeChild(popupContainer);
-                });
-                popupContainer.appendChild(closeButton);
-
-                const cvContent = document.createElement("div");
-                cvContent.innerHTML = cvHtml;
-                popupContainer.appendChild(cvContent);
-
-                document.body.appendChild(popupContainer);
-              } else {
-                alert("CV file not found.");
-              }
+              const link = document.createElement("a");
+              link.href = downloadLink;
+              link.download = `CV_${options.data.id}.pdf`;
+              link.style.display = "none";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
             } else {
               alert("Failed to fetch CV file.");
             }
