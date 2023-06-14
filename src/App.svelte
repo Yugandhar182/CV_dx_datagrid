@@ -58,25 +58,6 @@
           });
           container.appendChild(downloadButton);
 
-          const viewButton = document.createElement("button");
-          viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              cvHtml = cvData.html;
-              if (cvHtml) {
-                document.getElementById('cvPopup').style.display = 'block';
-              } else {
-                alert("CV file not found.");
-              }
-            } else {
-              alert("Failed to fetch CV file.");
-            }
-          });
-          container.appendChild(viewButton);
 
           const uploadButton = document.createElement("button");
           uploadButton.innerText = "Upload CV";
@@ -107,10 +88,46 @@
             fileInput.click();
           });
           container.appendChild(uploadButton);
-        },
-        width: 400,
-      },
+      
+      
       // Add other columns as needed
+      const viewButton = document.createElement("button");
+          viewButton.innerText = "View CV";
+          viewButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvHtml = cvData.html;
+              if (cvHtml) {
+                const popupContainer = document.createElement("div");
+                popupContainer.classList.add("popup-container");
+
+                const closeButton = document.createElement("button");
+                closeButton.innerText = "Close";
+                closeButton.addEventListener("click", () => {
+                  document.body.removeChild(popupContainer);
+                });
+                popupContainer.appendChild(closeButton);
+
+                const cvContent = document.createElement("div");
+                cvContent.innerHTML = cvHtml;
+                cvContent.classList.add("popup-content"); // Add the popup-content class
+                popupContainer.appendChild(cvContent);
+
+                document.body.appendChild(popupContainer);
+              } else {
+                alert("CV file not found.");
+              }
+            } else {
+              alert("Failed to fetch CV file.");
+            }
+          });
+          container.appendChild(viewButton);
+        },
+        width: 250,
+      },
     ];
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
@@ -274,6 +291,12 @@
   .popup-container button {
     display: block;
     margin-bottom: 10px;
+  }
+  .popup-content {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    overflow: auto;
   }
 </style>
 
