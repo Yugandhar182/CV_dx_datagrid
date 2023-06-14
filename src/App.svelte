@@ -1,9 +1,3 @@
-<h1 style="color: blue;">Job Candidate Details</h1>
-
-<div id="dataGrid"></div>
-
-<div id="popupContainer" class="popup-container"></div>
-
 <script>
   import { onMount } from "svelte";
   import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,6 +5,15 @@
 
   let jsonData = [];
   let gridData = [];
+  let isPopupVisible = false;
+
+  function openPopup() {
+    isPopupVisible = true;
+  }
+
+  function closePopup() {
+    isPopupVisible = false;
+  }
 
   onMount(async () => {
     const response = await fetch(
@@ -65,199 +68,61 @@
               const cvData = await cvResponse.json();
               const cvHtml = cvData.html;
               if (cvHtml) {
-                popupContainer.innerHTML = ""; // Clear any previous content
+                isPopupVisible = true;
+                const popupContainer = document.createElement("div");
+                popupContainer.className = "popup-container";
+
+                const popupContent = document.createElement("div");
+                popupContent.className = "popup-content";
+
+                const closeButton = document.createElement("button");
+                closeButton.className = "popup-close";
+                closeButton.innerText = "Close";
                 closeButton.addEventListener("click", () => {
-                  popupContainer.style.display = "none";
+                  isPopupVisible = false;
                 });
-                popupContainer.appendChild(closeButton);
 
                 const cvContent = document.createElement("div");
                 cvContent.innerHTML = cvHtml;
-                popupContainer.appendChild(cvContent);
 
-                popupContainer.style.display = "block";
+                popupContent.appendChild(closeButton);
+                popupContent.appendChild(cvContent);
+                popupContainer.appendChild(popupContent);
+                document.body.appendChild(popupContainer);
               } else {
-                alert("CV file not found.");
+                alert("No CV data available.");
               }
             } else {
               alert("Failed to fetch CV file.");
             }
           });
           container.appendChild(viewButton);
-
-          const uploadButton = document.createElement("button");
-          uploadButton.innerText = "Upload CV";
-          uploadButton.addEventListener("click", async () => {
-            const fileInput = document.createElement("input");
-            fileInput.type = "file";
-            fileInput.accept = ".pdf,.doc,.docx";
-            fileInput.addEventListener("change", async (event) => {
-              const file = event.target.files[0];
-              const formData = new FormData();
-              formData.append("file", file);
-
-              const uploadResponse = await fetch(
-                `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
-                {
-                  method: "POST",
-                  body: formData,
-                }
-              );
-
-              if (uploadResponse.ok) {
-                alert("CV uploaded successfully.");
-              } else {
-                alert("Failed to upload CV.");
-              }
-            });
-
-            fileInput.click();
-          });
-          container.appendChild(uploadButton);
         },
-        width: 400,
       },
-      // Add other columns as needed
     ];
 
-    const dataGrid = new DevExpress.ui.dxDataGrid(
-      document.getElementById("dataGrid"),
-      {
-        dataSource: gridData,
-        columns: columns,
-        showBorders: true,
-        filterRow: {
-          visible: true,
-        },
-        editing: {
-          allowDeleting: true,
-          allowAdding: true,
-          allowUpdating: true,
-          mode: "popup",
-          form: {
-            labelLocation: "top",
-          },
-          popup: {
-            showTitle: true,
-            title: "Row in the editing state",
-          },
-          texts: {
-            saveRowChanges: "Save",
-            cancelRowChanges: "Cancel",
-            deleteRow: "Delete",
-            confirmDeleteMessage:
-              "Are you sure you want to delete this record?",
-          },
-        },
-        paging: {
-          pageSize: 10,
-        },
-        onRowInserting: async (e) => {
-          console.log("Data being sent to API:", e.data);
-          try {
-            const response = await fetch(
-              "https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(e.data),
-              }
-            );
-
-            const responseData = await response.json();
-            if (response.ok) {
-              e.data.firstName = responseData.fistName;
-              gridData.push(e.data);
-              dataGrid.refresh();
-              alert("New data added successfully.");
-            } else {
-              console.error("Failed to add record:", responseData.error);
-            }
-          } catch (error) {
-            console.error("Failed to add record:", error);
-          }
-        },
-        onRowUpdating: async (e) => {
-          try {
-            console.log(e);
-            var newData = {
-              id: e.key.id,
-              firstName:
-                e.newData.firstName === undefined
-                  ? e.oldData.firstName
-                  : e.newData.firstName,
-              surname:
-                e.newData.surname === undefined
-                  ? e.oldData.surname
-                  : e.newData.surname,
-              email:
-                e.newData.email === undefined
-                  ? e.oldData.email
-                  : e.newData.email,
-              mobile:
-                e.newData.mobile === undefined
-                  ? e.oldData.mobile
-                  : e.newData.mobile,
-            };
-
-            console.log(newData);
-            const response = await fetch(
-              "https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154",
-              {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newData),
-              }
-            );
-
-            const responseData = await response.json();
-            if (response.ok) {
-              e.newData.firstName = responseData.firstName;
-              e.newData.surname = responseData.surname;
-              e.newData.email = responseData.email;
-              e.newData.mobile = responseData.mobile;
-              dataGrid.refresh();
-              alert("Data updated successfully.");
-            } else {
-              console.error("Failed to update record:", responseData.error);
-            }
-          } catch (error) {
-            console.error("Failed to update record:", error);
-          }
-        },
-        onRowRemoving: async (e) => {
-          try {
-            const response = await fetch(
-              `https://api.recruitly.io/api/candidate/${e.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`,
-              {
-                method: "DELETE",
-              }
-            );
-
-            if (response.ok) {
-              gridData = gridData.filter((item) => item.id !== e.data.id);
-              dataGrid.refresh();
-              alert("Data deleted successfully.");
-            } else {
-              const responseData = await response.json();
-              console.error("Failed to delete record:", responseData.error);
-            }
-          } catch (error) {
-            console.error("Failed to delete record:", error);
-          }
-        },
-      }
-    );
+    new DevExpress.ui.dxDataGrid(document.getElementById("gridContainer"), {
+      dataSource: gridData,
+      columns: columns,
+      width: "100%",
+      height: "100%",
+      paging: {
+        pageSize: 10,
+      },
+      pager: {
+        visible: true,
+        showPageSizeSelector: true,
+        allowedPageSizes: [10, 20, 50],
+      },
+    });
   });
 </script>
 
 <style>
   .popup-container {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -265,13 +130,9 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 9999;
-    overflow-y: auto;
   }
 
   .popup-content {
-    position: relative;
-    margin: 10% auto;
-    max-width: 80%;
     background-color: #fff;
     padding: 20px;
   }
@@ -284,3 +145,18 @@
     cursor: pointer;
   }
 </style>
+
+<main>
+  <h1>Grid Example</h1>
+
+  <div id="gridContainer"></div>
+
+  {#if isPopupVisible}
+    <div class="popup-container">
+      <div class="popup-content">
+        <button class="popup-close" on:click={closePopup}>Close</button>
+        <div id="cvContainer"></div>
+      </div>
+    </div>
+  {/if}
+</main>
