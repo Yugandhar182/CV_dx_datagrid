@@ -128,6 +128,7 @@ viewButton.addEventListener("click", async () => {
     `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
   );
   if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
     const cvHtml = atob(cvData.html);
     if (cvHtml) {
   openCVPopup(cvHtml);
@@ -137,7 +138,7 @@ viewButton.addEventListener("click", async () => {
     }
   } else {
     alert("Failed to fetch CV.");
-  } const cvData = await cvResponse.json();
+  } 
    
 });
 container.appendChild(viewButton);
