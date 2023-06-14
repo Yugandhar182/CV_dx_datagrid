@@ -33,26 +33,34 @@
         cellTemplate: function (container, options) {
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvId = cvData.CVId;
-              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+         
+viewButton.addEventListener("click", async () => {
+  const cvResponse = await fetch(
+    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+  );
+  if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
+    const cvId = cvData.CVId;
 
-              const link = document.createElement("a");
-              link.href = downloadLink;
-              link.download = `CV_${options.data.id}.pdf`;
-              link.style.display = "none";
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            } else {
-              alert("Failed to fetch CV file.");
-            }
-          });
+    if (cvId && typeof cvId === 'string' && cvId.trim() !== '') {
+      const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+
+      const link = document.createElement("a");
+      link.href = downloadLink;
+      link.download = `CV_${options.data.id}.pdf`;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert("CV file not found or CVId is invalid.");
+    }
+  } else {
+    alert("Failed to fetch CV file.");
+  }
+});
+
+
           container.appendChild(viewButton);
         },
         width: 250,
