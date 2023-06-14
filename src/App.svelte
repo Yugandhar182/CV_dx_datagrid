@@ -62,16 +62,7 @@
                 const cvWindow = window.open("", "_blank");
                 cvWindow.document.write(cvHtml);
                 cvWindow.document.close();
-                closeButton.addEventListener("click", () => {
-                  document.body.removeChild(popupContainer);
-                });
-                popupContainer.appendChild(closeButton);
-
-                const cvContent = document.createElement("div");
-                cvContent.innerHTML = cvHtml;
-                popupContainer.appendChild(cvContent);
-
-                document.body.appendChild(popupContainer);
+              
               } else {
                 alert("CV file not found.");
               }
