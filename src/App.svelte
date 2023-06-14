@@ -29,6 +29,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
+        width:250,
         cellTemplate: function (container, options) {
           const downloadLink = document.createElement("a");
           downloadLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
@@ -51,7 +52,7 @@
             }
           });
           container.appendChild(downloadLink);
-
+            
           const viewLink = document.createElement("a");
           viewLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
           viewLink.target = "_blank";
