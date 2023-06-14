@@ -38,14 +38,20 @@
   `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
 );
 if (cvResponse.ok) {
-  const cvData = await cvResponse.text();
+  const cvData = await cvResponse.blob();
+  const cvUrl = URL.createObjectURL(cvData);
+  
   const downloadLink = document.createElement("a");
-  downloadLink.href = `data:application/pdf;base64,${cvData}`;
+  downloadLink.href = cvUrl;
   downloadLink.download = `CV_${options.data.id}.pdf`;
   downloadLink.click();
-  const cvWindow = window.open("", "_blank");
-  cvWindow.document.write(`<iframe src="data:application/pdf;base64,${cvData}" style="width:100%; height:100%;" frameborder="0"></iframe>`);
-  cvWindow.document.close();
+  
+  const cvWindow = window.open(cvUrl, "_blank");
+  if (cvWindow) {
+    cvWindow.focus();
+  } else {
+    alert("Failed to open CV in a new window. Please check your browser settings.");
+  }
 } else {
   alert("Failed to fetch CV file.");
 }
