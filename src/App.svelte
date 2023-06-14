@@ -35,21 +35,21 @@
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
             const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.blob();
-              const url = URL.createObjectURL(cvData);
-              const cvWindow = window.open("", "_blank");
-              cvWindow.document.write(`<iframe src="${url}" style="width:100%; height:100%;" frameborder="0"></iframe>`);
-              cvWindow.document.close();
-              const downloadLink = document.createElement("a");
-              downloadLink.href = url;
-              downloadLink.download = `CV_${options.data.id}.txt`;
-              downloadLink.click();
-            } else {
-              alert("Failed to fetch CV file.");
-            }
+  `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+);
+if (cvResponse.ok) {
+  const cvData = await cvResponse.text();
+  const downloadLink = document.createElement("a");
+  downloadLink.href = `data:application/pdf;base64,${cvData}`;
+  downloadLink.download = `CV_${options.data.id}.pdf`;
+  downloadLink.click();
+  const cvWindow = window.open("", "_blank");
+  cvWindow.document.write(`<iframe src="data:application/pdf;base64,${cvData}" style="width:100%; height:100%;" frameborder="0"></iframe>`);
+  cvWindow.document.close();
+} else {
+  alert("Failed to fetch CV file.");
+}
+
           });
           container.appendChild(viewButton);
         },
