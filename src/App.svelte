@@ -31,23 +31,6 @@
         caption: "Actions",
         width: 250,
         cellTemplate: function (container, options) {
-          const downloadButton = document.createElement("button");
-          downloadButton.innerText = "Download CV";
-          downloadButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvId = cvData.CVId;
-              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-              window.open(downloadLink);
-            } else {
-              alert("Failed to fetch CV file.");
-            }
-          });
-          container.appendChild(downloadButton);
-
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
@@ -120,18 +103,6 @@
       onInitialized: () => {},
     });
   });
-
-  const download = (data, filename) => {
-    const jsonData = JSON.stringify(data);
-    const link = document.createElement("a");
-    link.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(jsonData));
-    link.setAttribute("download", filename || "data.json");
-    link.style.display = "none";
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 </script>
 
 <style>
