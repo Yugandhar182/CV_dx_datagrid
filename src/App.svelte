@@ -33,12 +33,23 @@
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
-          downloadButton.addEventListener("click", () => {
-            const cvData = jsonData.find((item) => item.id === options.data.id);
-            if (cvData && cvData.viewCV) {
-              window.open(cvData.viewCV, "_blank");
+          downloadButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              if (cvData.url) {
+                const downloadLink = document.createElement("a");
+                downloadLink.href = cvData.url;
+                downloadLink.target = "_blank";
+                downloadLink.download = `CV_${options.data.id}.pdf`;
+                downloadLink.click();
+              } else {
+                alert("CV file not found.");
+              }
             } else {
-              alert("CV file not found.");
+              alert("Failed to fetch CV file.");
             }
           });
           container.appendChild(downloadButton);
@@ -51,12 +62,21 @@
         cellTemplate: function (container, options) {
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", () => {
-            const cvData = jsonData.find((item) => item.id === options.data.id);
-            if (cvData && cvData.viewCV) {
-              window.open(cvData.viewCV, "_blank");
+          viewButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              if (cvData.html) {
+                const cvWindow = window.open("", "_blank");
+                cvWindow.document.write(cvData.html);
+                cvWindow.document.close();
+              } else {
+                alert("CV file not found.");
+              }
             } else {
-              alert("CV file not found.");
+              alert("Failed to fetch CV file.");
             }
           });
           container.appendChild(viewButton);
