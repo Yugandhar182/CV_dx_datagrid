@@ -5,8 +5,6 @@
 
   let jsonData = [];
   let gridData = [];
-  let popupVisible = false;
-  let cvHtml = "";
 
   onMount(async () => {
     const response = await fetch(
@@ -33,8 +31,6 @@
         caption: "Actions",
         width: 250,
         cellTemplate: function (container, options) {
-          const buttonContainer = document.createElement("div");
-
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
           downloadButton.addEventListener("click", async () => {
@@ -50,7 +46,7 @@
               alert("Failed to fetch CV file.");
             }
           });
-          buttonContainer.appendChild(downloadButton);
+          container.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
@@ -60,18 +56,36 @@
             );
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
-              cvHtml = cvData.html;
-              popupVisible = true;
+              const cvHtml = cvData.html;
+              if (cvHtml) {
+                const popupContainer = document.createElement("div");
+                popupContainer.classList.add("popup-container");
+
+                const closeButton = document.createElement("button");
+                closeButton.innerText = "Close";
+                closeButton.addEventListener("click", () => {
+                  document.body.removeChild(popupContainer);
+                });
+                popupContainer.appendChild(closeButton);
+
+                const cvContent = document.createElement("div");
+                cvContent.innerHTML = cvHtml;
+                cvContent.classList.add("popup-content"); // Add the popup-content class
+                popupContainer.appendChild(cvContent);
+
+                document.body.appendChild(popupContainer);
+              } else {
+                alert("CV file not found.");
+              }
             } else {
               alert("Failed to fetch CV file.");
             }
           });
-          buttonContainer.appendChild(viewButton);
-
-          container.appendChild(buttonContainer);
+          container.appendChild(viewButton);
         },
         width: 250,
       },
+      // Add other columns as needed
     ];
 
     const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
@@ -103,51 +117,33 @@
       paging: {
         pageSize: 20,
       },
+
+      onInitialized: () => {},
     });
   });
 </script>
 
 <style>
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-
-  .popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 4px;
-  }
-
-  .data-grid-container {
-    position: relative;
-  }
-</style>
+	.popup-overlay {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+  
+	.popup-content {
+	  background-color: white;
+	  padding: 20px;
+	  border-radius: 4px;
+	}
+	</style>
 
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
-<div class="data-grid-container">
-  <div id="dataGrid"></div>
-
-  {#if popupVisible}
-    <div class="popup-overlay">
-      <div class="popup-content">
-        <button class="btn btn-secondary" on:click={() => { popupVisible = false; }}>
-          Close
-        </button>
-        {#if cvHtml}
-          <div innerHTML={cvHtml} class="popup-cv-content"></div>
-        {/if}
-      </div>
-    </div>
-  {/if}
-</div>
+<div id="dataGrid"></div>
