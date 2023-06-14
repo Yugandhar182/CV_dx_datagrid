@@ -113,7 +113,7 @@
           container.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
-          viewButton.classList.add("btn", "btn-success", "mr-2");
+          viewButton.classList.add("btn", "btn-primarys", "mr-2");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
             const cvResponse = await fetch(
@@ -193,7 +193,7 @@
 
 <style>
   #dataGrid {
-    height: 400px;
+    height: 700px;
   }
 
   .popup-overlay {
