@@ -3,12 +3,8 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import DevExpress from "devextreme";
 
- 
-
   let jsonData = [];
   let gridData = [];
-
- 
 
   onMount(async () => {
     const response = await fetch(
@@ -17,8 +13,6 @@
     const responseData = await response.json();
     jsonData = responseData.data;
 
- 
-
     gridData = jsonData.map((item) => ({
       id: item.id,
       firstName: item.firstName,
@@ -26,8 +20,6 @@
       email: item.email,
       mobile: item.mobile,
     }));
-
- 
 
     const columns = [
       { dataField: "id", caption: "ID", width: 250 },
@@ -56,8 +48,6 @@
           });
           container.appendChild(downloadButton);
 
- 
-
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
@@ -68,9 +58,21 @@
               const cvData = await cvResponse.json();
               const cvHtml = cvData.html;
               if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
+                const popupContainer = document.createElement("div");
+                popupContainer.classList.add("popup-container");
+
+                const closeButton = document.createElement("button");
+                closeButton.innerText = "Close";
+                closeButton.addEventListener("click", () => {
+                  document.body.removeChild(popupContainer);
+                });
+                popupContainer.appendChild(closeButton);
+
+                const cvContent = document.createElement("div");
+                cvContent.innerHTML = cvHtml;
+                popupContainer.appendChild(cvContent);
+
+                document.body.appendChild(popupContainer);
               } else {
                 alert("CV file not found.");
               }
@@ -85,61 +87,65 @@
       // Add other columns as needed
     ];
 
- 
-
-    const dataGrid = new DevExpress.ui.dxDataGrid(
-      document.getElementById("dataGrid"),
-      {
-        dataSource: gridData,
-        columns: columns,
-        showBorders: true,
-        filterRow: {
-          visible: true,
+    const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
+      dataSource: gridData,
+      columns: columns,
+      showBorders: true,
+      filterRow: {
+        visible: true,
+      },
+      editing: {
+        allowDeleting: true,
+        allowAdding: true,
+        allowUpdating: true,
+        mode: "popup",
+        form: {
+          labelLocation: "top",
         },
-        editing: {
-          allowDeleting: true,
-          allowAdding: true,
-          allowUpdating: true,
-          mode: "popup",
-          form: {
-            labelLocation: "top",
-          },
-          popup: {
-            showTitle: true,
-            title: "Row in the editing state",
-          },
-          texts: {
-            saveRowChanges: "Save",
-            cancelRowChanges: "Cancel",
-            deleteRow: "Delete",
-            confirmDeleteMessage:
-              "Are you sure you want to delete this record?",
-          },
+        popup: {
+          showTitle: true,
+          title: "Row in the editing state",
         },
-        paging: {
-          pageSize: 10,
+        texts: {
+          saveRowChanges: "Save",
+          cancelRowChanges: "Cancel",
+          deleteRow: "Delete",
+          confirmDeleteMessage: "Are you sure you want to delete this record?",
         },
+      },
+      paging: {
+        pageSize: 10,
+      },
 
- 
-
-        onInitialized: () => {},
-      }
-    );
+      onInitialized: () => {},
+    });
   });
 </script>
-
- 
 
 <style>
   #dataGrid {
     height: 400px;
   }
+
+  .popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    overflow: auto;
+  }
+
+  .popup-container button {
+    display: block;
+    margin-bottom: 10px;
+  }
 </style>
 
- 
-
 <h1 style="color: blue;">Job Candidate Details</h1>
-
- 
 
 <div id="dataGrid"></div>
