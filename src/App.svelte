@@ -47,7 +47,8 @@
             );
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
-              const cvId = cvData.CVId;
+              console.log(cvData);
+              const cvId = cvData.internal.cloudfile.id;
               const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
               window.open(downloadLink);
             } else {
