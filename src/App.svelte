@@ -19,13 +19,14 @@
 
   
   const handleFileUpload = async () => {
+    console.log(options.data);
   if (selectedFile) {
     const formData = new FormData();
     formData.append("file", selectedFile);
 
     try {
       const response = await fetch(
-        `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${jsonData.id}`,
+        `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
         {
           method: "POST",
           body: formData,
