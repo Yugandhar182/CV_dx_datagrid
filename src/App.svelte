@@ -31,6 +31,45 @@
         caption: "Actions",
         width: 250,
         cellTemplate: function (container, options) {
+          const downloadButton = document.createElement("button");
+          downloadButton.innerText = "Download CV";
+          downloadButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvId = cvData.internal.cloudFile.id;
+              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+              window.open(downloadLink);
+            } else {
+              alert("Failed to fetch CV file.");
+            }
+          });
+          container.appendChild(downloadButton);
+
+          const viewButton = document.createElement("button");
+          viewButton.innerText = "View CV";
+          viewButton.addEventListener("click", async () => {
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvHtml = cvData.html;
+              if (cvHtml) {
+                const cvWindow = window.open("", "_blank");
+                cvWindow.document.write(cvHtml);
+                cvWindow.document.close();
+              } else {
+                alert("CV file not found.");
+              }
+            } else {
+              alert("Failed to fetch CV.");
+            }
+          });
+          container.appendChild(viewButton);
+
           const uploadButton = document.createElement("button");
           uploadButton.innerText = "Upload CV";
           uploadButton.addEventListener("click", async () => {
@@ -51,7 +90,7 @@
               );
 
               if (uploadResponse.ok) {
-                alert("CV upload successfully.");
+                alert("CV uploaded successfully.");
               } else {
                 alert("Failed to upload CV.");
               }
