@@ -124,6 +124,7 @@
 viewButton.innerText = "View CV";
 viewButton.classList.add("btn", "btn-success", "mr-2");
 viewButton.addEventListener("click", async () => {
+  console.log(options.id);
   const cvResponse = await fetch(
     `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
   );
