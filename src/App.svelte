@@ -332,7 +332,7 @@ container.appendChild(viewButton);
 <div class="popup-overlay">
   <div class="popup-content">
     <h3>View CV</h3>
-    <div id="cvContainer" innerHTML={selectedCVHtml}></div>
+    <div id="cvContainer">{selectedCVHtml}</div>
     <button on:click={handleClose} class="btn btn-secondary">Close</button>
   </div>
 </div>
