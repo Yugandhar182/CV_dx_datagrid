@@ -48,43 +48,38 @@
           });
           container.appendChild(downloadButton);
 
+          const viewButton = document.createElement("button");
+          viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
-  const cvResponse = await fetch(
-    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-  );
-  if (cvResponse.ok) {
-    const cvData = await cvResponse.json();
-    const cvHtml = cvData.html;
-    if (cvHtml) {
-      const popupContainer = document.createElement("div");
-      popupContainer.className = "popup-container";
+            const cvResponse = await fetch(
+              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+            );
+            if (cvResponse.ok) {
+              const cvData = await cvResponse.json();
+              const cvHtml = cvData.html;
+              if (cvHtml) {
+                const cvWindow = window.open("", "_blank");
+                cvWindow.document.write(cvHtml);
+                cvWindow.document.close();
+                closeButton.addEventListener("click", () => {
+                  document.body.removeChild(popupContainer);
+                });
+                popupContainer.appendChild(closeButton);
 
-      const popupContent = document.createElement("div");
-      popupContent.className = "popup-content";
+                const cvContent = document.createElement("div");
+                cvContent.innerHTML = cvHtml;
+                popupContainer.appendChild(cvContent);
 
-      const closeBtn = document.createElement("button");
-      closeBtn.innerText = "Close";
-      closeBtn.className = "close-button";
-      closeBtn.addEventListener("click", () => {
-        popupContainer.remove();
-      });
-
-      const cvWindow = window.open("", "_blank");
-      cvWindow.document.write(cvHtml);
-      cvWindow.document.close();
-
-      popupContent.appendChild(closeBtn);
-      popupContainer.appendChild(popupContent);
-      document.body.appendChild(popupContainer);
-    } else {
-      alert("CV file not found.");
-    }
-  } else {
-    alert("Failed to fetch CV.");
-  }
-  
-});
-
+                document.body.appendChild(popupContainer);
+              } else {
+                alert("CV file not found.");
+              }
+            } else {
+              alert("Failed to fetch CV file.");
+            }
+          });
+          container.appendChild(viewButton);
+       
 
           const uploadButton = document.createElement("button");
           uploadButton.innerText = "Upload CV";
@@ -244,33 +239,28 @@
 </script>
 
 <style>
+  #dataGrid {
+    height: 400px;
+  }
+
   .popup-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .popup-content {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
     background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
-    border-radius: 4px;
-    position: relative;
+    overflow: auto;
   }
 
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+  .popup-container button {
+    display: block;
+    margin-bottom: 10px;
   }
 </style>
-
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
