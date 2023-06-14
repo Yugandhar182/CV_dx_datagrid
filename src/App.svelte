@@ -3,12 +3,8 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import DevExpress from "devextreme";
 
- 
-
   let jsonData = [];
   let gridData = [];
-
- 
 
   onMount(async () => {
     const response = await fetch(
@@ -17,8 +13,6 @@
     const responseData = await response.json();
     jsonData = responseData.data;
 
- 
-
     gridData = jsonData.map((item) => ({
       id: item.id,
       firstName: item.firstName,
@@ -26,8 +20,6 @@
       email: item.email,
       mobile: item.mobile,
     }));
-
- 
 
     const columns = [
       { dataField: "id", caption: "ID", width: 250 },
@@ -56,8 +48,6 @@
           });
           container.appendChild(downloadButton);
 
- 
-
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
@@ -68,9 +58,8 @@
               const cvData = await cvResponse.json();
               const cvHtml = cvData.html;
               if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
+                const cvWindow = window.self;
                 cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
               } else {
                 alert("CV file not found.");
               }
@@ -84,8 +73,6 @@
       },
       // Add other columns as needed
     ];
-
- 
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
       document.getElementById("dataGrid"),
@@ -112,15 +99,12 @@
             saveRowChanges: "Save",
             cancelRowChanges: "Cancel",
             deleteRow: "Delete",
-            confirmDeleteMessage:
-              "Are you sure you want to delete this record?",
+            confirmDeleteMessage: "Are you sure you want to delete this record?",
           },
         },
         paging: {
           pageSize: 10,
         },
-
- 
 
         onInitialized: () => {},
       }
@@ -128,22 +112,12 @@
   });
 </script>
 
- 
-
 <style>
   #dataGrid {
     height: 400px;
   }
 </style>
 
- 
-
 <h1 style="color: blue;">Job Candidate Details</h1>
 
- 
-
 <div id="dataGrid"></div>
-
-
-has context menu
-Compose
