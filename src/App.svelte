@@ -86,7 +86,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 250,
+        width: 400,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
@@ -139,11 +139,12 @@
 				  const rowData = options.data;
 				  selectedRowData = rowData;
 				  isCVUploadPopupVisible = true;
+          
 				});
         container.appendChild(cvUploadButton);
           
         },
-        width: 250,
+       
       },
       // Add other columns as needed
     ];
