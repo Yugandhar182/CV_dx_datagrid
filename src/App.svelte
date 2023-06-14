@@ -123,7 +123,7 @@
             saveRowChanges: "Save",
             cancelRowChanges: "Cancel",
             deleteRow: "Delete",
-            confirmDeleteMessage: "Are you sure you want to delete this record?",
+            confirmDeleteMessage: "Are you sure you want to delete  record?",
           },
         },
         paging: {
