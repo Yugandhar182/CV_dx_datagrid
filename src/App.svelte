@@ -16,41 +16,39 @@
     isFileSelectionPopupOpen = true;
   };
 
-  const handleFileUpload = async (options) => {
-  if (options && options.data && options.data.id) {
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+  
+  const handleFileUpload = async () => {
+  if (selectedFile) {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
 
-      try {
-        const response = await fetch(
-          `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (response.ok) {
-          alert("CV uploaded successfully.");
-          // Perform any additional actions after successful upload
-        } else {
-          alert("Failed to upload CV.");
+    try {
+      const response = await fetch(
+        `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${jsonData.id}`,
+        {
+          method: "POST",
+          body: formData,
         }
-      } catch (error) {
-        console.error("Failed to upload CV:", error);
-      }
-    } else {
-      alert("Please select a file to upload.");
-    }
+      );
 
-    // Reset file selection and close the popup
-    selectedFile = null;
-    isFileSelectionPopupOpen = false;
+      if (response.ok) {
+        alert("CV uploaded successfully.");
+        // Perform any additional actions after successful upload
+      } else {
+        alert("Failed to upload CV.");
+      }
+    } catch (error) {
+      console.error("Failed to upload CV:", error);
+    }
   } else {
-    console.error("Invalid options or missing data.id property");
+    alert("Please select a file to upload.");
   }
+
+  // Reset file selection and close the popup
+  selectedFile = null;
+  isFileSelectionPopupOpen = false;
 };
+
 
 
   
