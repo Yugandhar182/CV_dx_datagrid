@@ -38,7 +38,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 600,
+        width: 800,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
