@@ -42,6 +42,7 @@
               const cvId = cvData.internal.cloudFile.id;
               const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
               window.open(downloadLink);
+              alert("Downloadded Successfully.");
             } else {
               alert("Failed to fetch CV file.");
             }
@@ -168,6 +169,7 @@
 				e.data.firstName=responseData.fistName;
 				gridData.push(e.data);
 				dataGrid.refresh();
+        alert("New data added successfully.");
 			  } else {
 				console.error("Failed to add record:", responseData.error);
 			  }
@@ -203,6 +205,7 @@
             gridData.push(e.newData);
             gridData[updatedItemIndex] = e.newData;
             dataGrid.refresh();
+            alert("Edited successfully.");
           } else {
             console.error("Failed to update record:", responseData.error);
           }
@@ -224,6 +227,7 @@
             if (removedItemIndex > -1) {
               gridData.splice(removedItemIndex, 1);
               dataGrid.refresh();
+              alert("Deleted successfully.");
             }
           } else {
             console.error("Failed to delete record.");
