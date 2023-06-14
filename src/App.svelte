@@ -1,3 +1,4 @@
+
 <script>
   import { onMount } from "svelte";
   import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,135 +30,130 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 250,
         cellTemplate: function (container, options) {
-          const downloadButton = document.createElement("button");
-          downloadButton.innerText = "Download CV";
-          downloadButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
+          const downloadLink = document.createElement("a");
+          downloadLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+          downloadLink.target = "_blank";
+          downloadLink.download = `CV_${options.data.id}.pdf`;
+          downloadLink.innerText = "Download CV";
+          downloadLink.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const cvResponse = await fetch(downloadLink.href);
             if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvId = cvData.CVId;
-              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-              window.open(downloadLink);
+              const cvBlob = await cvResponse.blob();
+              const cvUrl = URL.createObjectURL(cvBlob);
+              const cvLink = document.createElement("a");
+              cvLink.href = cvUrl;
+              cvLink.download = downloadLink.download;
+              cvLink.click();
+              URL.revokeObjectURL(cvUrl);
             } else {
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(downloadButton);
+          container.appendChild(downloadLink);
 
-          const viewButton = document.createElement("button");
-          viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
+          const viewLink = document.createElement("a");
+          viewLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+          viewLink.target = "_blank";
+          viewLink.innerText = "View CV";
+          viewLink.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const cvResponse = await fetch(viewLink.href);
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
               const cvHtml = cvData.html;
               if (cvHtml) {
-                const popupContainer = document.querySelector(".popup-container");
-                if (popupContainer) {
-                  document.body.removeChild(popupContainer);
-                }
-
-                const popup = document.createElement("div");
-                popup.classList.add("popup-container");
-
-                const closeButton = document.createElement("button");
-                closeButton.innerText = "Close";
-                closeButton.addEventListener("click", () => {
-                  document.body.removeChild(popup);
-                });
-                popup.appendChild(closeButton);
-
-                const cvContent = document.createElement("div");
-                cvContent.innerHTML = cvHtml;
-                popup.appendChild(cvContent);
-
-                document.body.appendChild(popup);
+                openCVModal(cvHtml);
               } else {
-                const popupContainer = document.querySelector(".popup-container");
-                if (popupContainer) {
-                  document.body.removeChild(popupContainer);
-                }
-
-                const errorPopup = document.createElement("div");
-                errorPopup.classList.add("popup-container");
-
-                const closeButton = document.createElement("button");
-                closeButton.innerText = "Close";
-                closeButton.addEventListener("click", () => {
-                  document.body.removeChild(errorPopup);
-                });
-                errorPopup.appendChild(closeButton);
-
-                const errorMessage = document.createElement("div");
-                errorMessage.innerText = "CV file not found.";
-                errorPopup.appendChild(errorMessage);
-
-                document.body.appendChild(errorPopup);
+                alert("CV file not found.");
               }
             } else {
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(viewButton);
+          container.appendChild(viewLink);
         },
-        width: 250,
+        width: 150,
       },
-      // Add other columns as needed
     ];
 
-    const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
-      dataSource: gridData,
-      columns: columns,
-      showBorders: true,
-      filterRow: {
-        visible: true,
-      },
-      editing: {
-        allowDeleting: true,
-        allowAdding: true,
-        allowUpdating: true,
-        mode: "popup",
-        form: {
-          labelLocation: "top",
+    const dataGrid = new DevExpress.ui.dxDataGrid(
+      document.getElementById("dataGrid"),
+      {
+        dataSource: gridData,
+        columns: columns,
+        showBorders: true,
+        filterRow: {
+          visible: true,
         },
-        popup: {
-          showTitle: true,
-          title: "Row in the editing state",
+        editing: {
+          allowDeleting: true,
+          allowAdding: true,
+          allowUpdating: true,
+          mode: "popup",
+          form: {
+            labelLocation: "top",
+          },
+          popup: {
+            showTitle: true,
+            title: "Row in the editing state",
+          },
+          texts: {
+            saveRowChanges: "Save",
+            cancelRowChanges: "Cancel",
+            deleteRow: "Delete",
+            confirmDeleteMessage:
+              "Are you sure you want to delete this record?",
+          },
         },
-        texts: {
-          saveRowChanges: "Save",
-          cancelRowChanges: "Cancel",
-          deleteRow: "Delete",
-          confirmDeleteMessage: "Are you sure you want to delete this record?",
+        paging: {
+          pageSize: 10,
         },
-      },
-      paging: {
-        pageSize: 10,
-      },
-
-      onInitialized: () => {},
-    });
+        onInitialized: () => {},
+      }
+    );
   });
+
+  let isModalOpen = false;
+  let modalCVHtml = "";
+
+  function openCVModal(html) {
+    isModalOpen = true;
+    modalCVHtml = html;
+  }
+
+  function closeCVModal() {
+    isModalOpen = false;
+    modalCVHtml = "";
+  }
 </script>
 
 <style>
-  .popup-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: white;
-    border: 1px solid black;
-    padding: 20px;
-    z-index: 9999;
+  #dataGrid {
+    height: 400px;
   }
 </style>
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
+
+{#if isModalOpen}
+  <div class="modal show" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">CV Preview</h5>
+          <button type="button" class="close" on:click={closeCVModal}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" innerHTML={modalCVHtml}></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" on:click={closeCVModal}>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
