@@ -70,7 +70,6 @@
 
                 const cvContent = document.createElement("div");
                 cvContent.innerHTML = cvHtml;
-                cvContent.classList.add("popup-content"); // Add the popup-content class
                 popupContainer.appendChild(cvContent);
 
                 document.body.appendChild(popupContainer);
@@ -115,7 +114,7 @@
         },
       },
       paging: {
-        pageSize: 20,
+        pageSize: 10,
       },
 
       onInitialized: () => {},
@@ -124,25 +123,28 @@
 </script>
 
 <style>
-	.popup-overlay {
-	  position: fixed;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background-color: rgba(0, 0, 0, 0.5);
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	}
-  
-	.popup-content {
-	  background-color: white;
-	  padding: 20px;
-	  border-radius: 4px;
-	}
-	</style>
+  #dataGrid {
+    height: 400px;
+  }
 
+  .popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    overflow: auto;
+  }
+
+  .popup-container button {
+    display: block;
+    margin-bottom: 10px;
+  }
+</style>
 
 <h1 style="color: blue;">Job Candidate Details</h1>
 
