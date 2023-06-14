@@ -79,7 +79,7 @@
                 alert("CV file not found.");
               }
             } else {
-              alert("Failed to fetch CV file.");
+              alert("Failed to fetch .");
             }
           });
           container.appendChild(viewButton);
