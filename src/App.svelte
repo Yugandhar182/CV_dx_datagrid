@@ -34,16 +34,16 @@
           const downloadLink = document.createElement("a");
           downloadLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
           downloadLink.target = "_blank";
-          downloadLink.download = `CV_${cloudFileId.id}.txt`;
+          downloadLink.download = `CV_${options.data.id}.pdf`;
           downloadLink.innerText = "Download CV";
           downloadLink.addEventListener("click", async (event) => {
             event.preventDefault();
             const cvResponse = await fetch(downloadLink.href);
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
-              const cloudFileId = cvData.cloudFileId;
+              const CVId= cvData.CVId;
 
-              const fileDownloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cloudFileId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+              const fileDownloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${CVId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
               const fileResponse = await fetch(fileDownloadUrl);
               if (fileResponse.ok) {
                 const fileBlob = await fileResponse.blob();
