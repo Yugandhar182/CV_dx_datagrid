@@ -121,6 +121,18 @@
     });
   });
 </script>
+<style>
+  .popup-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    z-index: 9999;
+  }
+</style>
+
 
 
 
