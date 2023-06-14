@@ -5,6 +5,10 @@
   
 	let jsonData = [];
 	let gridData = [];
+  let isCVUploadPopupVisible = false;
+	let selectedRowData = null;
+	
+
 
   async function uploadCV(file) {
 	  // Perform further actions with the uploaded file
@@ -222,17 +226,7 @@ console.log(newData)
 	  </div>
 	</div>
 	{/if}
-	{#if isCVViewPopupVisible}
-	<!-- CV View Popup -->
-	<div class="popup-overlay">
-	  <div class="popup-content">
-		<h3>View CV</h3>
-		<!-- Display the CV content here -->
-		<p>CV content goes here...</p>
-		<button on:click={handleClose} class="btn btn-secondary">Close</button>
-	  </div>
-	</div>
-	{/if}
+	
 	<style>
 	.popup-overlay {
 	  position: fixed;
