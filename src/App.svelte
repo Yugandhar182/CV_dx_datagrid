@@ -58,23 +58,47 @@
               const cvData = await cvResponse.json();
               const cvHtml = cvData.html;
               if (cvHtml) {
-                const popupContainer = document.createElement("div");
-                popupContainer.classList.add("popup-container");
+                const popupContainer = document.querySelector(".popup-container");
+                if (popupContainer) {
+                  document.body.removeChild(popupContainer);
+                }
+
+                const popup = document.createElement("div");
+                popup.classList.add("popup-container");
 
                 const closeButton = document.createElement("button");
                 closeButton.innerText = "Close";
                 closeButton.addEventListener("click", () => {
-                  document.body.removeChild(popupContainer);
+                  document.body.removeChild(popup);
                 });
-                popupContainer.appendChild(closeButton);
+                popup.appendChild(closeButton);
 
                 const cvContent = document.createElement("div");
                 cvContent.innerHTML = cvHtml;
-                popupContainer.appendChild(cvContent);
+                popup.appendChild(cvContent);
 
-                document.body.appendChild(popupContainer);
+                document.body.appendChild(popup);
               } else {
-                alert("CV file not found.");
+                const popupContainer = document.querySelector(".popup-container");
+                if (popupContainer) {
+                  document.body.removeChild(popupContainer);
+                }
+
+                const errorPopup = document.createElement("div");
+                errorPopup.classList.add("popup-container");
+
+                const closeButton = document.createElement("button");
+                closeButton.innerText = "Close";
+                closeButton.addEventListener("click", () => {
+                  document.body.removeChild(errorPopup);
+                });
+                errorPopup.appendChild(closeButton);
+
+                const errorMessage = document.createElement("div");
+                errorMessage.innerText = "CV file not found.";
+                errorPopup.appendChild(errorMessage);
+
+                document.body.appendChild(errorPopup);
               }
             } else {
               alert("Failed to fetch CV file.");
@@ -122,6 +146,20 @@
   });
 </script>
 
+
+
+<style>
+  .popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    z-index: 9999;
+  }
+</style>
 
 
 <h1 style="color: blue;">Job Candidate Details</h1>
