@@ -88,7 +88,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 400,
+        width: 500,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
@@ -193,6 +193,24 @@
   #dataGrid {
     height: 400px;
   }
+
+  .popup-overlay {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+  
+	.popup-content {
+	  background-color: white;
+	  padding: 20px;
+	  border-radius: 4px;
+	}
 </style>
 
 <h1 style="color: blue;">Job Candidate Details</h1>
