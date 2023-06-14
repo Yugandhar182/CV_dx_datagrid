@@ -39,9 +39,16 @@
             );
             if (cvResponse.ok) {
               const cvData = await cvResponse.json();
-              const cvId = cvData.CVId;
-              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-              window.open(downloadLink);
+              const cvUrl = cvData.url;
+              if (cvUrl) {
+                const downloadLink = document.createElement("a");
+                downloadLink.href = cvUrl;
+                downloadLink.target = "_blank";
+                downloadLink.download = `CV_${options.data.id}.pdf`;
+                downloadLink.click();
+              } else {
+                alert("CV file not found.");
+              }
             } else {
               alert("Failed to fetch CV file.");
             }
@@ -107,8 +114,6 @@
         paging: {
           pageSize: 10,
         },
-
-        onInitialized: () => {},
       }
     );
   });
