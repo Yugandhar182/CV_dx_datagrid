@@ -34,7 +34,7 @@
           const downloadLink = document.createElement("a");
           downloadLink.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
           downloadLink.target = "_blank";
-          downloadLink.download = `CV_${options.data.id}.pdf`;
+          downloadLink.download = `CV_${cloudFileId.id}.pdf`;
           downloadLink.innerText = "Download CV";
           downloadLink.addEventListener("click", async (event) => {
             event.preventDefault();
