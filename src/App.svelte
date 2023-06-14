@@ -118,8 +118,7 @@ viewButton.addEventListener("click", async () => {
           uploadButton.addEventListener("click", async () => {
             
             isFileSelectionPopupOpen = true;
-            fileInput.addEventListener("change", async (event) => {
-              const file = event.target.files[0];
+           
               const formData = new FormData();
               formData.append("file", file);
 
