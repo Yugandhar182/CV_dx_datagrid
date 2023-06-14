@@ -16,7 +16,7 @@
     isFileSelectionPopupOpen = true;
   };
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (options) => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
