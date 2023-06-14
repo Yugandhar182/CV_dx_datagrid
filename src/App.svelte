@@ -271,6 +271,13 @@ viewButton.addEventListener("click", async () => {
         onInitialized: () => {},
       }
     );
+    fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".pdf,.doc,.docx";
+    fileInput.addEventListener("change", handleFileSelection);
+
+    const container = document.getElementById("fileInputContainer");
+    container.appendChild(fileInput);
   });
 </script>
 
