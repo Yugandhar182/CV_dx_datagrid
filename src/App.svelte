@@ -74,26 +74,42 @@
           });
           container.appendChild(viewButton);
 
-          const cvUploadButton = document.createElement("button");
-          cvUploadButton.innerText = "Upload CV";
-          cvUploadButton.addEventListener("click", async () => {
-            const fileInput = document.createElement("input");
-            fileInput.type = "file";
-            fileInput.accept = "application/pdf"; // Set the accepted file types
-            fileInput.addEventListener("change", async (event) => {
-              const file = event.target.files[0];
-              if (file) {
-                // You can access the selected file here
-                // For example, you can upload the file to the server using AJAX
-                console.log(file);
-              }
-            });
+          const uploadButton = document.createElement("button");
+  uploadButton.innerText = "Upload CV";
+  uploadButton.addEventListener("click", async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/pdf"; // Modify the file types as needed
 
-            fileInput.click();
-          });
-          container.appendChild(cvUploadButton);
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const uploadResponse = await fetch(
+          `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${options.data.id}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (uploadResponse.ok) {
+          alert("CV uploaded successfully.");
+          // Refresh the grid data if needed
+        } else {
+          alert("Failed to upload CV.");
+        }
+      }
+    });
+
+    input.click();
+  });
+
+  container.appendChild(uploadButton);
         },
-        width: 250,
+       
       },
       // Add other columns as needed
     ];
