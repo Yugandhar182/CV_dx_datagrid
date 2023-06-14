@@ -38,7 +38,7 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 800,
+        width: 200,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
@@ -126,7 +126,7 @@
           });
           container.appendChild(viewButton);
         },
-        width: 250,
+        width:100,
       },
     ];
 
