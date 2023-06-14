@@ -45,7 +45,8 @@
             const cvData = await cvResponse.json();
 
             if (cvData.cvid) {
-              const downloadUrl = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+              const downloadUrl =`https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvData.cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+
               const downloadLink = document.createElement("a");
               downloadLink.href = downloadUrl;
               downloadLink.download = "CV.txt";
