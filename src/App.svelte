@@ -33,53 +33,36 @@
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.innerText = "Download CV";
-          downloadButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvUrl = cvData.url;
-              if (cvUrl) {
-                const downloadLink = document.createElement("a");
-                downloadLink.href = cvUrl;
-                downloadLink.target = "_blank";
-                downloadLink.download = `CV_${options.data.id}.pdf`;
-                downloadLink.click();
-              } else {
-                alert("CV file not found.");
-              }
+          downloadButton.addEventListener("click", () => {
+            const cvData = jsonData.find((item) => item.id === options.data.id);
+            if (cvData && cvData.viewCV) {
+              window.open(cvData.viewCV, "_blank");
             } else {
-              alert("Failed to fetch CV file.");
+              alert("CV file not found.");
             }
           });
           container.appendChild(downloadButton);
-
+        },
+        width: 125,
+      },
+      {
+        caption: "View CV",
+        width: 125,
+        cellTemplate: function (container, options) {
           const viewButton = document.createElement("button");
           viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
-              } else {
-                alert("CV file not found.");
-              }
+          viewButton.addEventListener("click", () => {
+            const cvData = jsonData.find((item) => item.id === options.data.id);
+            if (cvData && cvData.viewCV) {
+              window.open(cvData.viewCV, "_blank");
             } else {
-              alert("Failed to fetch CV file.");
+              alert("CV file not found.");
             }
           });
           container.appendChild(viewButton);
         },
-        width: 250,
+        width: 125,
       },
-      // Add other columns as needed
     ];
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
