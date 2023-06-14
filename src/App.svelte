@@ -32,7 +32,7 @@
 			console.log("CV uploaded successfully!");
 			// Perform any additional actions upon successful upload
 		  } else {
-			console.error("CV upload failed.");
+			console.error("CV upload fail.");
 			// Handle the error accordingly
 		  }
 		} catch (error) {
