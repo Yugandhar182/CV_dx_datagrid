@@ -175,8 +175,7 @@
   .popup-overlay {
 		position: fixed;
 		top: 0;
-		left: 50;
-		right: 550;
+	
 		bottom: 0;
     width: 100px;
     height: 100px;
@@ -199,30 +198,36 @@
     justify-content: space-between;
     margin-top: 10px;
   }
+  .view-cv-popup {
+    /* Custom styles for the popup container */
+    /* Example: */
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .view-cv-popup .popup-content {
     /* Custom styles for the popup content */
     /* Example: */
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    width: 400px;
-    height: 300px;
+    width: 80%;
+    max-height: 80%;
     overflow: auto;
   }
 
-  .view-cv-popup .popup-content img {
-    /* Custom styles for any images within the popup content */
+  .view-cv-popup button {
+    /* Custom styles for the close button */
     /* Example: */
-    max-width: 100%;
-    height: auto;
+    margin-top: 10px;
   }
-
-  .view-cv-popup .popup-content video {
-    /* Custom styles for any videos within the popup content */
-    /* Example: */
-    max-width: 100%;
-    height: auto;
-  }
-
   
 </style>
