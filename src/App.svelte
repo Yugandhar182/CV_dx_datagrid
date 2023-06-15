@@ -8,7 +8,7 @@
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
   let isCVViewPopupVisible = false;
-let cvHtmlData = "";
+  let cvHtml = "";
 	
 	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
@@ -120,22 +120,23 @@ let cvHtmlData = "";
           viewButton.classList.add("btn", "btn-primary", "mr-2");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
-  const cvResponse = await fetch(
-    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-  );
-  if (cvResponse.ok) {
-    const cvData = await cvResponse.json();
-    const cvHtml = cvData.html;
-    if (cvHtml) {
-      isCVViewPopupVisible = true;
-      cvHtmlData = cvHtml; // Store the CV HTML data
-    } else {
+           const cvResponse = await fetch(
+         `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+          );
+         if (cvResponse.ok) {
+        const cvData = await cvResponse.json();
+         const cvHtmlData = cvData.html;
+        if (cvHtmlData) {
+        isCVViewPopupVisible = true;
+        cvHtml = cvHtmlData; // Store the CV HTML data
+       } else {
       alert("CV file not found.");
     }
   } else {
     alert("Failed to fetch CV.");
   }
 });
+
 
           container.appendChild(viewButton);
             
