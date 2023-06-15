@@ -125,20 +125,15 @@
           );
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
-        console.log(cvHtml);
-        cvHtml = cvData.html;
+        console.log(cvData.html);
+      cvHtml = cvData.html;
 
+if (cvHtml) {
+  isCVViewPopupVisible = true;
+} else {
+  alert("CV file not found.");
+}
 
-        if (cvHtmlData) {
-        isCVViewPopupVisible = true;
-        cvHtml = cvHtmlData; // Store the CV HTML data
-    } else {
-      alert("CV file not found.");
-    }
-  } else {
-    alert("Failed to fetch CV.");
-  }
-});
 
 
           container.appendChild(viewButton);
