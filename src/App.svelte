@@ -7,8 +7,6 @@
   let gridData = [];
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
-  let cvDetails = "";
-  let isCVDetailsVisible = false;
 	
 	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
@@ -121,29 +119,26 @@
           viewButton.style.marginRight = "4px";
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
-    const cvResponse = await fetch(
-      `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-    if (cvResponse.ok) {
-      const cvData = await cvResponse.json();
-      const cvHtml = cvData.html;
-      if (cvHtml) {
-        const parser = new DOMParser();
-        const decodedHtml = parser.parseFromString(cvHtml, 'text/html').documentElement.textContent;
-        cvDetails = decodedHtml;
-        isCVDetailsVisible = true;
-      } else {
-        alert("CV file not found.");
-      }
+  const cvResponse = await fetch(
+    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+  );
+  if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
+    const cvHtml = cvData.html;
+    if (cvHtml) {
+      const cvWindow = window.open();
+      cvWindow.document.write(cvHtml);
+      cvWindow.document.close();
     } else {
-      alert("Failed to fetch CV.");
+      alert("CV file not found.");
     }
-  });
-          container.appendChild(viewButton);
-          function closeCVDetails() {
-    cvDetails = "";
-    isCVDetailsVisible = false;
+  } else {
+    alert("Failed to fetch CV.");
   }
+});
+
+          });
+          container.appendChild(viewButton);
             
 
         	const cvUploadButton = document.createElement("button");
@@ -257,7 +252,7 @@
             console.error("Failed to update record:", responseData.error);
           }
         } catch (error) {
-          console.error("Fail to update record:", error);
+          console.error("Failed to update record:", error);
         }
       },
       onRowRemoving: async (e) => {
@@ -348,10 +343,3 @@
   </div>
 </div>
 {/if}
-{#if isCVDetailsVisible}
-<div class="cv-details">
-  <button on:click={closeCVDetails} class="cv-details-close">Close</button>
-  <div innerHTML={cvDetails}></div>
-</div>
-{/if}
-
