@@ -125,8 +125,11 @@
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
         console.log(cvData);
-        console.log(cvData.html);
-        cvHtml = cvData.html;
+        
+        const cvHtml = cvData.internal.cloudFile.id;
+        console.log(cvData.internal.cloudFile);
+        console.log(cvHtml);
+
 
          if (cvHtml) {
          isCVViewPopupVisible = true;
