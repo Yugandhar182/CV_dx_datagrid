@@ -95,23 +95,27 @@
           downloadButton.style.marginRight = "4px";
           downloadButton.innerText = "Download CV";
           downloadButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              console.log(cvData);
-              const cvId = cvData.internal.cloudFile.id;
-              console.log(cvData.internal.cloudFile);
-              console.log(cvId);
+  const cvResponse = await fetch(
+    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+  );
 
-              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-              window.open(downloadLink);
-              alert("file downloaded successfully");
-            } else {
-              alert("Failed to fetch CV file.");
-            }
-          });
+  if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
+    const cvFile = cvData.internal.cloudFile;
+
+    if (cvFile) {
+      const cvId = cvFile.id;
+      const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
+      window.open(downloadLink);
+      alert("File downloaded successfully");
+    } else {
+      alert("CV file not found");
+    }
+  } else {
+    alert("Failed to fetch CV file");
+  }
+});
+
           container.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
