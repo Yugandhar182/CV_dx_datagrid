@@ -137,6 +137,7 @@
   container.appendChild(viewButton);
   function handleClose() {
     isCVViewPopupVisible = false;
+    cvHtml = "";
   }
 			  
   
