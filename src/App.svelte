@@ -173,21 +173,33 @@
 <style>
   /* Add your custom styling for the popup overlay and content here */
   .popup-overlay {
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
     left: 0;
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     z-index: 9999;
     align-items: center;
-    justify-content: center;    
+    justify-content: center;   
   }
 
   .popup-content {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: white;
     padding: 20px;
     border-radius: 5px;
-    max-width: 200px;
+    max-width: 500px;
+  }
+  .cv-view-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; /* Adjust the width as needed */
+    height: 300px; /* Adjust the height as needed */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
   }
 </style>
