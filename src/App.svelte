@@ -191,13 +191,20 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    max-width: 100%;
-    max-height: 100%;
+    width: 400px;
+    height: 300px;
     overflow: auto;
   }
 
   .view-cv-popup .popup-content img {
     /* Custom styles for any images within the popup content */
+    /* Example: */
+    max-width: 100%;
+    height: auto;
+  }
+
+  .view-cv-popup .popup-content video {
+    /* Custom styles for any videos within the popup content */
     /* Example: */
     max-width: 100%;
     height: auto;
