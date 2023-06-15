@@ -193,41 +193,6 @@
     border-radius: 5px;
     max-width: 500px;
   }
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  .view-cv-popup {
-    /* Custom styles for the popup container */
-    /* Example: */
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .view-cv-popup .popup-content {
-    /* Custom styles for the popup content */
-    /* Example: */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 80%;
-    max-height: 80%;
-    overflow: auto;
-  }
-
-  .view-cv-popup button {
-    /* Custom styles for the close button */
-    /* Example: */
-    margin-top: 10px;
-  }
+  
   
 </style>
