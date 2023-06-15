@@ -126,7 +126,8 @@
     const cvData = await cvResponse.json();
     const cvHtml = cvData.html;
     if (cvHtml) {
-      const cvWindow = window.open();
+      const windowFeatures = "height=600,width=800"; // Set the desired height and width values
+      const cvWindow = window.open("", "_blank", windowFeatures);
       cvWindow.document.write(cvHtml);
       cvWindow.document.close();
     } else {
@@ -137,7 +138,6 @@
   }
 });
 
-          });
           container.appendChild(viewButton);
             
 
