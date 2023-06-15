@@ -7,6 +7,8 @@
   let gridData = [];
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
+  let cvDetails = "";
+  let isCVDetailsVisible = false;
 	
 	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
@@ -119,24 +121,27 @@
           viewButton.style.marginRight = "4px";
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
-              } else {
-                alert("CV file not found.");
-              }
-            } else {
-              alert("Failed to fetch CV.");
-            }
-          });
+    const cvResponse = await fetch(
+      `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+    );
+    if (cvResponse.ok) {
+      const cvData = await cvResponse.json();
+      const cvHtml = cvData.html;
+      if (cvHtml) {
+        cvDetails = cvHtml;
+        isCVDetailsVisible = true;
+      } else {
+        alert("CV file not found.");
+      }
+    } else {
+      alert("Failed to fetch CV.");
+    }
+  });
           container.appendChild(viewButton);
+          function closeCVDetails() {
+    cvDetails = "";
+    isCVDetailsVisible = false;
+  }
             
 
         	const cvUploadButton = document.createElement("button");
@@ -339,5 +344,11 @@
   <button on:click={handleSave} class="btn btn-primary">Save</button>
   <button on:click={handleClose} class="btn btn-secondary">Close</button>
   </div>
+</div>
+{/if}
+{#if isCVDetailsVisible}
+<div class="cv-details">
+  <button on:click={closeCVDetails} class="cv-details-close">Close</button>
+  <div>{cvDetails}</div>
 </div>
 {/if}
