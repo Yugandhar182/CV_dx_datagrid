@@ -176,7 +176,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		right: 50;
+		right: 500;
 		bottom: 0;
     width: 100px;
     height: 100px;
