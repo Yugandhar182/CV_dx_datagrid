@@ -126,7 +126,7 @@
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
         console.log(cvData.html);
-      cvHtml = cvData.html;
+cvHtml = cvData.html;
 
 if (cvHtml) {
   isCVViewPopupVisible = true;
@@ -134,6 +134,8 @@ if (cvHtml) {
   alert("CV file not found.");
 }
 
+  }
+});
 
 
           container.appendChild(viewButton);
