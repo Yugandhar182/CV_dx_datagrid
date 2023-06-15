@@ -107,7 +107,7 @@
       const cvId = cvFile.id;
       const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
       window.open(downloadLink);
-      alert("File downloaded successfully");
+      alert("File download successfully");
     } else {
       alert("CV file not found");
     }
