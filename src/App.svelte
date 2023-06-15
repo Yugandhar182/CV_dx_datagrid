@@ -92,7 +92,7 @@
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
           downloadButton.classList.add("btn", "btn-success", "mr-2");
-          cvUploadButton.style.marginRight = "1px";
+          downloadButton.style.marginRight = "1px";
           downloadButton.innerText = "Download CV";
           downloadButton.addEventListener("click", async () => {
             const cvResponse = await fetch(
@@ -116,7 +116,7 @@
 
           const viewButton = document.createElement("button");
           viewButton.classList.add("btn", "btn-primary", "mr-2");
-          cvUploadButton.style.marginRight = "1px";
+          viewButton.style.marginRight = "1px";
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
             const cvResponse = await fetch(
@@ -305,6 +305,23 @@
 	  padding: 20px;
 	  border-radius: 4px;
 	}
+  .cv-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+	
+	.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .action-buttons button {
+    margin-right: 10px;
+  }
+
 </style>
 
 <h1 style="color: blue;">Job Candidate Details</h1>
