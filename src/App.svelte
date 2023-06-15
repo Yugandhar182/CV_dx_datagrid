@@ -90,6 +90,47 @@
         caption: "Actions",
         width: 350,
         cellTemplate: function (container, options) {
+           
+        	const cvUploadButton = document.createElement("button");
+				cvUploadButton.innerText = "CV Upload";
+				cvUploadButton.classList.add("btn", "btn-success", "mr-2");
+        cvUploadButton.style.marginRight = "4px";
+				cvUploadButton.addEventListener("click", function () {
+				  const rowData = options.data;
+				  selectedRowData = rowData;
+				  isCVUploadPopupVisible = true;
+          
+				});
+        container.appendChild(cvUploadButton);
+
+        const viewButton = document.createElement("button");
+          viewButton.classList.add("btn", "btn-primary", "mr-2");
+          viewButton.style.marginRight = "4px";
+          viewButton.innerText = "View CV";
+          viewButton.addEventListener("click", async () => {
+  const cvResponse = await fetch(
+    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+  );
+  if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
+    const cvHtml = cvData.html;
+    if (cvHtml) {
+      const windowFeatures = "height=500,width=700"; // Set the desired height and width values
+      const cvWindow = window.open("", "_blank", windowFeatures);
+      
+      cvWindow.document.write(cvHtml);
+      cvWindow.document.close();
+    } else {
+      alert("CV file not found.");
+    }
+  } else {
+    alert("Failed to fetch CV.");
+  }
+});
+
+          container.appendChild(viewButton);
+
+
           const downloadButton = document.createElement("button");
           downloadButton.classList.add("btn", "btn-success", "mr-2");
           downloadButton.style.marginRight = "4px";
@@ -118,45 +159,9 @@
 
           container.appendChild(downloadButton);
 
-          const viewButton = document.createElement("button");
-          viewButton.classList.add("btn", "btn-primary", "mr-2");
-          viewButton.style.marginRight = "4px";
-          viewButton.innerText = "View CV";
-          viewButton.addEventListener("click", async () => {
-  const cvResponse = await fetch(
-    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-  );
-  if (cvResponse.ok) {
-    const cvData = await cvResponse.json();
-    const cvHtml = cvData.html;
-    if (cvHtml) {
-      const windowFeatures = "height=500,width=700"; // Set the desired height and width values
-      const cvWindow = window.open("", "_blank", windowFeatures);
-      
-      cvWindow.document.write(cvHtml);
-      cvWindow.document.close();
-    } else {
-      alert("CV file not found.");
-    }
-  } else {
-    alert("Failed to fetch CV.");
-  }
-});
-
-          container.appendChild(viewButton);
+        
             
 
-        	const cvUploadButton = document.createElement("button");
-				cvUploadButton.innerText = "CV Upload";
-				cvUploadButton.classList.add("btn", "btn-success", "mr-2");
-        cvUploadButton.style.marginRight = "4px";
-				cvUploadButton.addEventListener("click", function () {
-				  const rowData = options.data;
-				  selectedRowData = rowData;
-				  isCVUploadPopupVisible = true;
-          
-				});
-        container.appendChild(cvUploadButton);
           
         },
        
