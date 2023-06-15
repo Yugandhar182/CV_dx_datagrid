@@ -125,7 +125,8 @@
           );
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
-         const cvHtmlData = cvData.html;
+        cvHtml = cvData.html;
+
         if (cvHtmlData) {
         isCVViewPopupVisible = true;
         cvHtml = cvHtmlData; // Store the CV HTML data
