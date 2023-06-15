@@ -128,6 +128,7 @@
     if (cvHtml) {
       const windowFeatures = "height=600,width=800"; // Set the desired height and width values
       const cvWindow = window.open("", "_blank", windowFeatures);
+      cvWindow.document.write('<iframe src="' + cvPdfUrl + '" width="100%" height="100%" style="border: none;"></iframe>');
       cvWindow.document.write(cvHtml);
       cvWindow.document.close();
     } else {
