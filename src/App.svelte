@@ -202,4 +202,10 @@
     border-radius: 4px;
     padding: 20px;
   }
+  .cv-view-popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+  }
 </style>
