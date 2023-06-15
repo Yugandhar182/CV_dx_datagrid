@@ -166,7 +166,7 @@
   {/if}
 
   {#if isCVViewPopupVisible}
-    <CVView cvData={cvData} onClose={handleClose} />
+  <object data={cvData} type="application/pdf" width="100%" height="100%"></object>
   {/if}
 </div>
 
