@@ -195,8 +195,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20px; /* Adjust the width as needed */
-    height: 200px; /* Adjust the height as needed */
+    width: 0px; /* Adjust the width as needed */
+    height: 0px; /* Adjust the height as needed */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -206,6 +206,6 @@
     background-color: white;
     padding: 20px;
     border-radius: 5px;
-    max-width: 500px;
+   
   }
 </style>
