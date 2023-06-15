@@ -134,7 +134,7 @@
     }
   });
           container.appendChild(viewButton);
-          window.closeCV = function() {{
+          window.closeCV = function() {
     document.getElementById("cvContainer").innerHTML = "";
     document.getElementById("closeButton").style.display = "none";
   }
