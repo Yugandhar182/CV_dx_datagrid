@@ -5,67 +5,8 @@
 
   let jsonData = [];
   let gridData = [];
-  let isCVUploadPopupVisible = false;
-	let selectedRowData = null;
-  let isCVViewPopupVisible = false;
-  let cvHtml = "";
-	
-	 // Add a variable to store the selected CV identifier
-  async function uploadCV(file) {
-	  // Perform further actions with the uploaded file
-  
-	  // Example: Update the backend API URL with the file upload
-	  const formData = new FormData();
-	  formData.append("file", file);
-  
-	  if (selectedRowData) {
-		const uploadCandidateId = selectedRowData.id; // Get the candidate ID from selectedRowData
-  
-		try {
-		  const response = await fetch(
-			`https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`,
-			{
-			  method: "POST",
-			  body: formData,
-			}
-		  );
-  
-		  if (response.ok) {
-        alert("file uploaded successfully");
-			console.log("CV uploaded successfully!");
-      console.log(uploadCandidateId);
-			// Perform any additional actions upon successful upload
-		  } else {
-			console.error("CV upload fail.");
-			// Handle the error accordingly
-		  }
-		} catch (error) {
-		  console.error("CV upload error:", error);
-		  // Handle the error accordingly
-		}
-	  }
-  
-	  // Close the CV upload popup
-	  isCVUploadPopupVisible = false;
-	}
-  function handleSave() {
-	  // Perform save logic
-	  // In this case, we're updating the backend API URL in the handleSave function
-	  console.log("Save clicked");
-  
-	  // Close the CV upload popup
-	  isCVUploadPopupVisible = false;
-	}
-  
-	function handleClose() {
-	  // Perform close logic
-	  console.log("Close clicked");
-  
-	  // Close the CV upload popup or CV view popup
-	  isCVUploadPopupVisible = false;
-	  isCVViewPopupVisible = false;
-	}
-  
+  let showPopup = false;
+  let pdfUrl = "";
 
   onMount(async () => {
     const response = await fetch(
@@ -90,70 +31,29 @@
       { dataField: "mobile", caption: "Mobile", width: 150 },
       {
         caption: "Actions",
-        width: 350,
         cellTemplate: function (container, options) {
-          const downloadButton = document.createElement("button");
-          downloadButton.classList.add("btn", "btn-success", "mr-2" , "mb-2");
-          downloadButton.innerText = "Download CV";
-          downloadButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
+          const link = document.createElement("a");
+          link.href = `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`;
+          link.target = "_blank";
+          link.innerText = "View CV";
+          link.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const cvResponse = await fetch(link.href);
             if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              console.log(cvData);
-              const cvId = cvData.internal.cloudFile.id;
-              console.log(cvData.internal.cloudFile);
-              console.log(cvId);
-
-              const downloadLink = `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`;
-              window.open(downloadLink);
-              alert("file downloaded successfully");
+              const blob = await cvResponse.blob();
+              const url = URL.createObjectURL(blob);
+              pdfUrl = url;
+              showPopup = true;
             } else {
               alert("Failed to fetch CV file.");
             }
           });
-          container.appendChild(downloadButton);
-
-          const viewButton = document.createElement("button");
-  viewButton.classList.add("btn", "btn-primary", "mr-2" , "mb-2");
-  viewButton.innerText = "View CV";
-  viewButton.addEventListener("click", async () => {
-    const cvResponse = await fetch(
-      `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-    if (cvResponse.ok) {
-      const cvData = await cvResponse.json();
-      cvHtml = cvData.html;
-      if (cvHtml) {
-        isCVViewPopupVisible = true;
-      } else {
-        alert("CV file not found.");
-      }
-    } else {
-      alert("Failed to fetch CV.");
-    }
-  });
-          container.appendChild(viewButton);
-            
-
-        	const cvUploadButton = document.createElement("button");
-				cvUploadButton.innerText = "CV Upload";
-				cvUploadButton.classList.add("btn", "btn-success", "mr-2" , "mb-2");
-				cvUploadButton.addEventListener("click", function () {
-				  const rowData = options.data;
-				  selectedRowData = rowData;
-				  isCVUploadPopupVisible = true;
-          
-				});
-        container.appendChild(cvUploadButton);
-          
+          container.appendChild(link);
         },
-       
+        width: 150,
       },
       // Add other columns as needed
     ];
-
 
     const dataGrid = new DevExpress.ui.dxDataGrid(
       document.getElementById("dataGrid"),
@@ -180,166 +80,54 @@
             saveRowChanges: "Save",
             cancelRowChanges: "Cancel",
             deleteRow: "Delete",
-            confirmDeleteMessage: "Are you sure you want to delete  record?",
+            confirmDeleteMessage:
+              "Are you sure you want to delete this record?",
           },
         },
         paging: {
-          pageSize:10,
+          pageSize: 10,
         },
-        onRowInserting: async (e) => {
-			console.log("Data being sent to API:", e.data);
-			try {
-			  const response = await fetch(
-				"https://api.recruitly.io/api/candidate?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA",
-				{
-				  method: "POST",
-				  headers: {
-					"Content-Type": "application/json",
-				  },
-				  body: JSON.stringify(e.data),
-				}
-			  );
-  
-			  const responseData = await response.json();
-			  if (response.ok) {
-				
-				e.data.firstName=responseData.fistName;
-				gridData.push(e.data);
-				dataGrid.refresh();
-        alert("New data added successfully.");
-			  } else {
-				console.error("Failed to add record:", responseData.error);
-			  }
-			} catch (error) {
-			  console.error("Failed to add record:", error);
-			}
-		  },
-      onRowUpdating: async (e) => {
-        try {
-          console.log(e);
-          var newData = {
-            id: e.key.id,
-            firstName: e.newData.firstName === undefined ? e.oldData.firstName : e.newData.firstName,
-            surname: e.newData.surname === undefined ? e.oldData.surname : e.newData.surname,
-            email: e.newData.email === undefined ? e.oldData.email : e.newData.email,
-            mobile: e.newData.mobile === undefined ? e.oldData.mobile : e.newData.mobile,
-          }
-  
-          console.log(newData)
-          const response = await fetch(
-            `https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(newData),
-            }
-          );
-          const responseData = await response.json();
-          if (response.ok) {
-            const updatedItemIndex = gridData.findIndex((item) => item.id === e.key);
-            gridData.push(e.newData);
-            gridData[updatedItemIndex] = e.newData;
-            dataGrid.refresh();
-            alert(" Record edited successfully.");
-          } else {
-            console.error("Failed to update record:", responseData.error);
-          }
-        } catch (error) {
-          console.error("Failed to update record:", error);
-        }
-      },
-      onRowRemoving: async (e) => {
-        console.log("Data being sent to API:", e.data);
-        try {
-          const response = await fetch(
-            `https://api.recruitly.io/api/candidate/${e.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`,
-            {
-              method: "DELETE",
-            }
-          );
-          if (response.ok) {
-            const removedItemIndex = gridData.findIndex((item) => item.id === e.key);
-            if (removedItemIndex > -1) {
-              gridData.splice(removedItemIndex, 1);
-              dataGrid.refresh();
-              alert(" Record Deleted successfully");
-            }
-          } else {
-            console.error("Failed to delete record.");
-          }
-        } catch (error) {
-          console.error("Failed to delete record:", error);
-        }
-      },
 
         onInitialized: () => {},
       }
     );
   });
 </script>
-<div id="dataGrid"></div>
 
 <style>
   #dataGrid {
-    height: 700px;
+    height: 400px;
   }
-
-  .popup-overlay {
-	  position: fixed;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background-color: rgba(0, 0, 0, 0.5);
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	}
   
-	.popup-content {
-	  background-color: white;
-	  padding: 20px;
-	  border-radius: 4px;
-	}
- 
-  .mr-2 {
-    margin-right: 5.5rem; /* Adjust the margin as needed */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 800px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
-
-  .mb-2 {
-    margin-bottom: 5.5rem; /* Adjust the margin as needed */
+  
+  .popup-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
   }
 </style>
 
-<h1 style="color: blue;">Job Candidate Details</h1>
+<h1 style="color:blue;">Job Candidate Details</h1>
 
 <div id="dataGrid"></div>
-{#if isCVUploadPopupVisible}
-<div class="popup-overlay">
-  <div class="popup-content">
-  <h3>Upload CV</h3>
-  <input
-    type="file"
-    on:change="{(event) => uploadCV(event.target.files[0])}"
-    accept=".pdf,.doc,.docx"
-  />
-  <button on:click={handleSave} class="btn btn-primary">Save</button>
-  <button on:click={handleClose} class="btn btn-secondary">Close</button>
+
+{#if showPopup}
+  <div class="popup">
+    <div class="popup-close" on:click={() => { showPopup = false; pdfUrl = ""; }}>Close</div>
+    <iframe src="{pdfUrl}" width="100%" height="100%" frameborder="0"></iframe>
   </div>
-</div>
-{/if}
-{#if isCVViewPopupVisible}
-<div class="popup-overlay">
-  <div class="popup-content">
-    <h3>CV View</h3>
-    {#if cvHtml}
-      <div id="cvContainer" {cvHtml}></div>
-    {:else}
-      <p>CV file not found.</p>
-    {/if}
-    <button on:click={handleClose} class="btn btn-secondary">Close</button>
-  </div>
-</div>
 {/if}
