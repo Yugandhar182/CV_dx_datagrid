@@ -93,7 +93,7 @@
         width: 350,
         cellTemplate: function (container, options) {
           const downloadButton = document.createElement("button");
-          downloadButton.classList.add("btn", "btn-success", "mr-2");
+          downloadButton.classList.add("btn", "btn-success", "mr-2" , "mb-2");
           downloadButton.innerText = "Download CV";
           downloadButton.addEventListener("click", async () => {
             const cvResponse = await fetch(
@@ -116,7 +116,7 @@
           container.appendChild(downloadButton);
 
           const viewButton = document.createElement("button");
-  viewButton.classList.add("btn", "btn-primary", "mr-2");
+  viewButton.classList.add("btn", "btn-primary", "mr-2" , "mb-2");
   viewButton.innerText = "View CV";
   viewButton.addEventListener("click", async () => {
     const cvResponse = await fetch(
@@ -139,7 +139,7 @@
 
         	const cvUploadButton = document.createElement("button");
 				cvUploadButton.innerText = "CV Upload";
-				cvUploadButton.classList.add("btn", "btn-success", "mr-2");
+				cvUploadButton.classList.add("btn", "btn-success", "mr-2" , "mb-2");
 				cvUploadButton.addEventListener("click", function () {
 				  const rowData = options.data;
 				  selectedRowData = rowData;
@@ -302,8 +302,13 @@
 	  padding: 20px;
 	  border-radius: 4px;
 	}
-  .button-container {
-    margin-top: 150px;
+ 
+  .mr-2 {
+    margin-right: 0.5rem; /* Adjust the margin as needed */
+  }
+
+  .mb-2 {
+    margin-bottom: 0.5rem; /* Adjust the margin as needed */
   }
 </style>
 
