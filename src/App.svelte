@@ -257,7 +257,7 @@
             console.error("Failed to update record:", responseData.error);
           }
         } catch (error) {
-          console.error("Failed to update record:", error);
+          console.error("Fail to update record:", error);
         }
       },
       onRowRemoving: async (e) => {
