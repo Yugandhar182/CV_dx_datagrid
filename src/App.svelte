@@ -195,5 +195,13 @@
     justify-content: space-between;
     margin-top: 10px;
   }
+  .view-cv-popup .popup-content {
+    /* Custom styles for the popup content */
+    /* Example: */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+  }
   
 </style>
