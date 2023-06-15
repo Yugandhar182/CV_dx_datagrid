@@ -125,7 +125,7 @@
           );
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
-        console.log(cvData);
+        console.log(cvHtml);
         cvHtml = cvData.html;
 
 
