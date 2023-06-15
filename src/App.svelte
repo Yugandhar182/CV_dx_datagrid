@@ -120,7 +120,7 @@
           viewButton.classList.add("btn", "btn-primary", "mr-2");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
-            cvHtml = cvData.internal.cloudFile.htmlContent;
+            
 
            const cvResponse = await fetch(
          `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`);
