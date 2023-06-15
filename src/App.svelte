@@ -201,7 +201,17 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    max-width: 500px;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
   }
+
+  .view-cv-popup .popup-content img {
+    /* Custom styles for any images within the popup content */
+    /* Example: */
+    max-width: 100%;
+    height: auto;
+  }
+
   
 </style>
