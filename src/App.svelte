@@ -173,21 +173,21 @@
 <style>
   /* Add your custom styling for the popup overlay and content here */
   .popup-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: white;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
     z-index: 9999;
     align-items: center;
-    justify-content: center;
+    justify-content: center;    
   }
 
   .popup-content {
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-radius: 5px;
-    max-width: 500px;
+    max-width: 200px;
   }
 </style>
