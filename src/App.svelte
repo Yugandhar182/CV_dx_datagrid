@@ -128,7 +128,9 @@
       const cvData = await cvResponse.json();
       const cvHtml = cvData.html;
       if (cvHtml) {
-        cvDetails = cvHtml;
+        const parser = new DOMParser();
+        const decodedHtml = parser.parseFromString(cvHtml, 'text/html').documentElement.textContent;
+        cvDetails = decodedHtml;
         isCVDetailsVisible = true;
       } else {
         alert("CV file not found.");
@@ -349,6 +351,7 @@
 {#if isCVDetailsVisible}
 <div class="cv-details">
   <button on:click={closeCVDetails} class="cv-details-close">Close</button>
-  <div>{cvDetails}</div>
+  <div innerHTML={cvDetails}></div>
 </div>
 {/if}
+
