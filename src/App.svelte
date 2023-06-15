@@ -304,11 +304,11 @@
 	}
  
   .mr-2 {
-    margin-right: 0.5rem; /* Adjust the margin as needed */
+    margin-right: 5.5rem; /* Adjust the margin as needed */
   }
 
   .mb-2 {
-    margin-bottom: 0.5rem; /* Adjust the margin as needed */
+    margin-bottom: 5.5rem; /* Adjust the margin as needed */
   }
 </style>
 
