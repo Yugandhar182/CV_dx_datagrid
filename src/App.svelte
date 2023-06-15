@@ -302,6 +302,9 @@
 	  padding: 20px;
 	  border-radius: 4px;
 	}
+  .button-container {
+    margin-top: 5px;
+  }
 </style>
 
 <h1 style="color: blue;">Job Candidate Details</h1>
