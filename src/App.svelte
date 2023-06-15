@@ -8,7 +8,7 @@
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
   let isCVViewPopupVisible = false;
-  let cvHtml = "";
+  
 	
 	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
@@ -120,14 +120,17 @@
           viewButton.classList.add("btn", "btn-primary", "mr-2");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
+            cvHtml = cvData.internal.cloudFile.htmlContent;
+
            const cvResponse = await fetch(
          `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`);
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
         console.log(cvData);
         
-        const cvHtml = cvData.internal.cloudFile.id;
-        console.log(cvData.internal.cloudFile);
+        const cvHtml = cvData.internal.cloudFile.htmlContent;
+
+        console.log(cvData.internal.cloudFile.htmlContent);
         console.log(cvHtml);
 
 
