@@ -279,6 +279,7 @@
     );
   });
 </script>
+<div id="dataGrid"></div>
 
 <style>
   #dataGrid {
