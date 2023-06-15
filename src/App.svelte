@@ -7,6 +7,8 @@
   let gridData = [];
   let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
+  let isCVViewPopupVisible = false;
+let cvHtmlData = "";
 	
 	 // Add a variable to store the selected CV identifier
   async function uploadCV(file) {
@@ -53,6 +55,7 @@
   
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
+    isCVViewPopupVisible = false;
 	}
   
 	function handleClose() {
@@ -117,23 +120,23 @@
           viewButton.classList.add("btn", "btn-primary", "mr-2");
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
-            const cvResponse = await fetch(
-              `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-            );
-            if (cvResponse.ok) {
-              const cvData = await cvResponse.json();
-              const cvHtml = cvData.html;
-              if (cvHtml) {
-                const cvWindow = window.open("", "_blank");
-                cvWindow.document.write(cvHtml);
-                cvWindow.document.close();
-              } else {
-                alert("CV file not found.");
-              }
-            } else {
-              alert("Failed to fetch CV.");
-            }
-          });
+  const cvResponse = await fetch(
+    `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+  );
+  if (cvResponse.ok) {
+    const cvData = await cvResponse.json();
+    const cvHtml = cvData.html;
+    if (cvHtml) {
+      isCVViewPopupVisible = true;
+      cvHtmlData = cvHtml; // Store the CV HTML data
+    } else {
+      alert("CV file not found.");
+    }
+  } else {
+    alert("Failed to fetch CV.");
+  }
+});
+
           container.appendChild(viewButton);
             
 
@@ -321,3 +324,14 @@
   </div>
 </div>
 {/if}
+<div id="dataGrid"></div>
+{#if isCVViewPopupVisible}
+  <div class="popup-overlay">
+    <div class="popup-content">
+      <h3>View CV</h3>
+      <iframe src={cvHtml} style="width: 100%; height: 500px;"></iframe>
+      <button on:click={handleClose} class="btn btn-secondary">Close</button>
+    </div>
+  </div>
+{/if}
+
