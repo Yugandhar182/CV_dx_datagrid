@@ -121,21 +121,21 @@
           viewButton.innerText = "View CV";
           viewButton.addEventListener("click", async () => {
            const cvResponse = await fetch(
-         `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-          );
+         `https://api.recruitly.io/api/candidatecv/${options.data.id}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`);
          if (cvResponse.ok) {
         const cvData = await cvResponse.json();
+        console.log(cvData);
         console.log(cvData.html);
-cvHtml = cvData.html;
+        cvHtml = cvData.html;
 
-if (cvHtml) {
-  isCVViewPopupVisible = true;
-} else {
-  alert("CV file not found.");
-}
+         if (cvHtml) {
+         isCVViewPopupVisible = true;
+          } else {
+         alert("CV file not found.");
+         }
 
-  }
-});
+            }
+           });
 
 
           container.appendChild(viewButton);
