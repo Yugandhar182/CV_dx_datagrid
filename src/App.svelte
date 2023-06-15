@@ -150,12 +150,10 @@
 <div class="container mt-4">
   <h2>Candidate List</h2>
   <div id="data-grid"></div>
-</div>
 
-<div
-  class="popup-overlay"
-  style="{isCVUploadPopupVisible || isCVViewPopupVisible ? 'display: flex' : 'display: none'}"
->
+
+
+
   {#if isCVUploadPopupVisible}
     <div class="popup-content">
       <h3>Upload CV</h3>
@@ -166,7 +164,7 @@
   {/if}
 
   {#if isCVViewPopupVisible}
-  <object data={cvData} type="application/pdf" width="100%" height="100%"></object>
+  <object data={cvData} type="application/pdf" width="20%" height="200%"></object>
   {/if}
 </div>
 
