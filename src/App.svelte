@@ -175,8 +175,8 @@
   .popup-overlay {
 		position: fixed;
 		top: 0;
-		left: 0;
-		right: 500;
+		left: 250;
+		right: 0;
 		bottom: 0;
     width: 100px;
     height: 100px;
