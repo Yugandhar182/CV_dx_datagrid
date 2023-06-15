@@ -190,22 +190,10 @@
     border-radius: 5px;
     max-width: 500px;
   }
-  .cv-view-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0px; /* Adjust the width as needed */
-    height: 0px; /* Adjust the height as needed */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 20px;
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
   }
-  .cv-view-popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-   
-  }
+  
 </style>
